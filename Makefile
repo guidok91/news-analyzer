@@ -10,4 +10,7 @@ test:
 	sbt test
 
 run:
-	sbt "run ${x}"
+	sbt run
+
+clean:
+	sbt clean

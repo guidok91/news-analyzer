@@ -1,6 +1,9 @@
 import calculator.Calculator
+import config.ConfigManager
 
 @main
-def main(x: Int, others: String*): Unit = {
-  println(s"The double of $x is ${Calculator.double(x)}")
+def main(args: String*): Unit = {
+  val config = ConfigManager.config
+  val number = config.getInt("number")
+  println(s"The double of $number is ${Calculator.double(number)}")
 }

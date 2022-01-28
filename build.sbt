@@ -7,5 +7,6 @@ lazy val root = project
 
     scalaVersion := "3.1.0",
 
+    libraryDependencies += "com.typesafe" % "config" % "1.4.1",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test
   )
