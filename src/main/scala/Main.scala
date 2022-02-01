@@ -1,17 +1,21 @@
+import collection.JavaConverters._
 import config.ConfigManager
 import requests.get
 import ujson.read
 
 @main
 def main(args: String*): Unit = {
-  val config = ConfigManager.config
+  val conf = ConfigManager.config
 
-  val bearerToken = config.getString("twitter_api.auth_bearer_token")
+  val tweetKeywords = conf.getStringList("twitter_api.tweet_keywords_query").asScala.toList
+  val searchQuery = (tweetKeywords ++ tweetKeywords.map(t => s"#$t")).mkString(" OR ")
+
+  val bearerToken = conf.getString("twitter_api.auth_bearer_token")
   val response = requests.get(
     url = "https://api.twitter.com/2/tweets/search/recent",
     params = Map(
-      "query" -> "from:TwitterDev",
-      "tweet.fields" -> "id,text,created_at,geo,lang",
+      "query" -> searchQuery,
+      "tweet.fields" -> "id,text,created_at,lang",
     ),
     headers = Map("Authorization" -> s"Bearer $bearerToken")
   )
