@@ -1,10 +1,12 @@
 # Twitter API demo in Scala
 ![workflow](https://github.com/guidok91/twitter-api-demo/actions/workflows/ci.yml/badge.svg)
 
-Scala 3 demo project that consumes and displays tweets from the Twitter API.
+Scala demo project that consumes and displays tweets using the [Twitter API](https://developer.twitter.com/en/docs/twitter-api).
+
+Only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
 
 ## Running instructions
-The app needs a Bearer Token in order to authenticate against the API.
+The app needs a Bearer Token in order to authenticate against the API ([OAuth 2.0 App-Only](https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only) auth).
 
 The token has to be be generated on the Twitter Developer portal. More info [here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api).
 
