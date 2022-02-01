@@ -40,6 +40,3 @@ jobs:
 
       - name: Run tests
         run: make test
-
-      - name: Run project
-        run: make run
