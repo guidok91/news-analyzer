@@ -1,9 +1,9 @@
-import calculator.Calculator
 import config.ConfigManager
 
 @main
 def main(args: String*): Unit = {
-  val config = ConfigManager.config
-  val number = config.getInt("number")
-  println(s"The double of $number is ${Calculator.double(number)}")
+  val r = requests.get("https://api.github.com/users/lihaoyi")
+  val json = ujson.read(r.text()).obj
+  println(s"Response json keys: ${json.keys}")
+  println(s"Response json login: ${json.obj.get("login")}")
 }
