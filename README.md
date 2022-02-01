@@ -1,7 +1,7 @@
 # Twitter API demo in Scala
 ![workflow](https://github.com/guidok91/twitter-api-demo/actions/workflows/ci.yml/badge.svg)
 
-Scala demo project that consumes and displays tweets using the [Twitter API](https://developer.twitter.com/en/docs/twitter-api).
+Scala demo app that consumes and displays tweets using the [Twitter API](https://developer.twitter.com/en/docs/twitter-api).
 
 Only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
 
