@@ -11,9 +11,7 @@ def main(args: String*): Unit = {
     url = "https://api.twitter.com/2/tweets/search/recent",
     params = Map(
       "query" -> "from:TwitterDev",
-      "tweet.fields" -> "created_at",
-      "expansions" -> "author_id",
-      "user.fields" -> "created_at"
+      "tweet.fields" -> "id,text,created_at,geo,lang",
     ),
     headers = Map("Authorization" -> s"Bearer $bearerToken")
   )
@@ -21,8 +19,11 @@ def main(args: String*): Unit = {
 
   response_data.foreach(
     tweet => println(
-      s"Tweet author ID: ${tweet("author_id")}\n" +
-      s"Tweet text: ${tweet("text")}\n"
+      s"Tweet id: ${tweet("id")}\n" +
+      s"Tweet text: ${tweet("text")}\n" +
+      s"Tweet created_at: ${tweet("created_at")}\n" +
+      s"Tweet lang: ${tweet("lang")}\n" +
+      s"Tweet geo: ${tweet.obj.get("geo")}\n"
     )
   )
 }
