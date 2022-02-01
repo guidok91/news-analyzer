@@ -5,6 +5,7 @@ import ujson.read
 
 @main
 def main(args: String*): Unit = {
+  // TODO: refactor, modularise, handle exceptions
   val conf = ConfigManager.config
 
   val tweetKeywords = conf.getStringList("twitter_api.tweet_keywords_query").asScala.toList
