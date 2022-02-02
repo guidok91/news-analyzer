@@ -4,7 +4,7 @@ import requests.{get, Response}
 import ujson.read
 import scala.collection.mutable.ArrayBuffer
 
-class TwitterAPIClient(bearerToken: String){
+class TwitterAPIClient(bearerToken: String) {
 
   def getTweets(tweetKeywords: List[String], tweetFields: List[String]) : ArrayBuffer[ujson.Value] = {
     val searchQuery = buildSearchQuery(tweetKeywords)
@@ -22,11 +22,11 @@ class TwitterAPIClient(bearerToken: String){
     formatResponse(response)
   }
 
-  private def buildSearchQuery(tweetKeywords: List[String]): String = {
+  def buildSearchQuery(tweetKeywords: List[String]): String = {
     (tweetKeywords ++ tweetKeywords.map(t => s"#$t")).mkString(" OR ")
   }
 
-  private def formatResponse(response: requests.Response): ArrayBuffer[ujson.Value]  = {
+  def formatResponse(response: requests.Response): ArrayBuffer[ujson.Value] = {
     ujson.read(response.text()).obj.get("data") match {
       case Some(rows) => rows.arr
       case None => throw new RuntimeException("No tweets found for the given search parameters")

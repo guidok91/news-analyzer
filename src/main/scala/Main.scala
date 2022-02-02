@@ -5,7 +5,6 @@ import ujson.read
 
 @main
 def main(args: String*): Unit = {
-  // TODO: refactor, modularise, handle exceptions
   val bearerToken = ConfigManager.getString("twitter_api.auth_bearer_token")
   val tweetKeywords = ConfigManager.getStringList("twitter_api.tweet_keywords_query")
   val tweetFields = ConfigManager.getStringList("twitter_api.tweet_fields")
