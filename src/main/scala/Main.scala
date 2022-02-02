@@ -1,5 +1,3 @@
-import config.ConfigManager
-import api.TwitterAPIClient
 
 @main
 def main(args: String*): Unit = {

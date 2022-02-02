@@ -1,4 +1,3 @@
-package api
 import requests.{get, Response}
 import play.api.libs.json.Json
 
