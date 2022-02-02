@@ -27,6 +27,9 @@ class TwitterAPIClient(bearerToken: String){
   }
 
   private def formatResponse(response: requests.Response): ArrayBuffer[ujson.Value]  = {
-    ujson.read(response.text())("data").arr
+    ujson.read(response.text()).obj.get("data") match {
+      case Some(rows) => rows.arr
+      case None => throw new RuntimeException("No tweets found for the given search parameters")
+    }
   }
 }
