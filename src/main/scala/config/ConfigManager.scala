@@ -6,7 +6,7 @@ import collection.JavaConverters._
 object ConfigManager {
   private val conf: Config = this.readConfigFile("conf/application.conf")
 
-  def readConfigFile(configFilePath: String): Config = {
+  private def readConfigFile(configFilePath: String): Config = {
     val configFile = new File(configFilePath)
 
     if (!configFile.exists())
