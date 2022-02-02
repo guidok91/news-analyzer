@@ -1,9 +1,10 @@
 package config
 import java.io.{File, FileNotFoundException}
 import com.typesafe.config.{Config, ConfigFactory}
+import collection.JavaConverters._
 
 object ConfigManager {
-  val config: Config = this.readConfigFile("conf/application.conf")
+  private val conf: Config = this.readConfigFile("conf/application.conf")
 
   def readConfigFile(configFilePath: String): Config = {
     val configFile = new File(configFilePath)
@@ -13,4 +14,11 @@ object ConfigManager {
 
     ConfigFactory.parseFile(configFile)
   }
+
+  def getString(configKey: String): String = conf.getString(configKey)
+
+  def getInt(configKey: String): Int = conf.getInt(configKey)
+
+  def getStringList(configKey: String): List[String] = conf.getStringList(configKey).asScala.toList
+
 }
