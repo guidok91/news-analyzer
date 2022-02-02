@@ -19,17 +19,19 @@ class TwitterAPIClient(bearerToken: String) {
       headers = Map("Authorization" -> s"Bearer $bearerToken")
     )
 
-    formatResponse(response)
+    extractTweets(response.text())
   }
 
   def buildSearchQuery(tweetKeywords: List[String]): String = {
     (tweetKeywords ++ tweetKeywords.map(t => s"#$t")).mkString(" OR ")
   }
 
-  def formatResponse(response: requests.Response): ArrayBuffer[ujson.Value] = {
-    ujson.read(response.text()).obj.get("data") match {
+  def extractTweets(response: String): ArrayBuffer[ujson.Value] = {
+    ujson.read(response).obj.get("data") match {
       case Some(rows) => rows.arr
-      case None => throw new RuntimeException("No tweets found for the given search parameters")
+      case None => throw new NoDataFoundException("No tweets found for the given search parameters")
     }
   }
 }
+
+case class NoDataFoundException(message: String) extends Exception(message)
