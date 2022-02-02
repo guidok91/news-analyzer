@@ -1,7 +1,5 @@
 import config.ConfigManager
 import api.TwitterAPIClient
-import requests.get
-import ujson.read
 
 @main
 def main(args: String*): Unit = {
@@ -17,8 +15,7 @@ def main(args: String*): Unit = {
       s"Tweet id: ${tweet("id")}\n" +
       s"Tweet text: ${tweet("text")}\n" +
       s"Tweet created_at: ${tweet("created_at")}\n" +
-      s"Tweet lang: ${tweet("lang")}\n" +
-      s"Tweet geo: ${tweet.obj.get("geo")}\n"
+      s"Tweet lang: ${tweet("lang")}\n"
     )
   )
 }

@@ -1,12 +1,10 @@
 package api
-import ujson.Value
 import requests.{get, Response}
-import ujson.read
-import scala.collection.mutable.ArrayBuffer
+import play.api.libs.json.Json
 
 class TwitterAPIClient(bearerToken: String) {
 
-  def getTweets(tweetKeywords: List[String], tweetFields: List[String]) : ArrayBuffer[ujson.Value] = {
+  def getTweets(tweetKeywords: List[String], tweetFields: List[String]): List[Map[String, String]] = {
     val searchQuery = buildSearchQuery(tweetKeywords)
     val tweetFieldsStr = tweetFields.mkString(",")
 
@@ -26,9 +24,11 @@ class TwitterAPIClient(bearerToken: String) {
     (tweetKeywords ++ tweetKeywords.map(t => s"#$t")).mkString(" OR ")
   }
 
-  def extractTweets(response: String): ArrayBuffer[ujson.Value] = {
-    ujson.read(response).obj.get("data") match {
-      case Some(rows) => rows.arr
+  def extractTweets(response: String): List[Map[String, String]] = {
+    val response_json = Json.parse(response)
+    
+    (response_json \ "data").asOpt[List[Map[String, String]]] match {
+      case Some(rows) => rows
       case None => throw new NoDataFoundException("No tweets found for the given search parameters")
     }
   }
