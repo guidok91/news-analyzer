@@ -1,8 +1,7 @@
 @main
 def main(args: String*): Unit = {
   val bearerToken = ConfigManager.getString("twitter_api.auth_bearer_token")
-  val tweetKeywords =
-    ConfigManager.getStringList("twitter_api.tweet_keywords_query")
+  val tweetKeywords = ConfigManager.getStringList("twitter_api.tweet_keywords_query")
   val tweetFields = ConfigManager.getStringList("twitter_api.tweet_fields")
 
   val twitterApiClient = new TwitterAPIClient(bearerToken)
