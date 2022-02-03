@@ -8,6 +8,10 @@ class TwitterAPIClientTest extends AnyFunSuite {
     val input = List("hashtag", "tweet")
     val outputExpected = "hashtag OR tweet OR #hashtag OR #tweet"
 
+
+
+
+    
     // WHEN
     val output = twitterApiClient.buildSearchQuery(input)
 
