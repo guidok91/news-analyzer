@@ -20,7 +20,7 @@ class TwitterAPIClient(bearerToken: String) {
   }
 
   def buildSearchQuery(tweetKeywords: List[String]): String = {
-    if tweetKeywords.isEmpty then throw NoDataFoundException("At least one Tweet search keyword must be specified")
+    if tweetKeywords.isEmpty then throw NoDataFoundException("At least one tweet search keyword must be specified")
     (tweetKeywords ++ tweetKeywords.map(t => s"#$t")).mkString(" OR ")
   }
 
