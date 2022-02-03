@@ -29,7 +29,10 @@ class TwitterAPIClientTest extends AnyFunSuite {
         "result_count": 2
       }
     }"""
-    val outputExpected = List(Map("id" -> "123", "text" -> "tweet1"), Map("id" -> "456", "text" -> "tweet2"))
+    val outputExpected = List(
+      Map("id" -> "123", "text" -> "tweet1"),
+      Map("id" -> "456", "text" -> "tweet2")
+    )
     val output = twitterApiClient.extractTweets(input)
     assert(outputExpected == output)
   }
@@ -46,6 +49,4 @@ class TwitterAPIClientTest extends AnyFunSuite {
       twitterApiClient.extractTweets(input)
     }
   }
-
-  // TODO test getTweets (mocking requests.get)
 }

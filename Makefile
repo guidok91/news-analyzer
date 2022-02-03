@@ -9,6 +9,9 @@ package:
 test:
 	sbt test
 
+format:
+	sbt scalafmtAll
+
 run:
 	sbt run
 

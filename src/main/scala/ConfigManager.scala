@@ -9,7 +9,9 @@ object ConfigManager {
     val configFile = new File(configFilePath)
 
     if (!configFile.exists())
-      throw new FileNotFoundException(s"Config file $configFilePath does not exist")
+      throw new FileNotFoundException(
+        s"Config file $configFilePath does not exist"
+      )
 
     ConfigFactory.parseFile(configFile)
   }
@@ -18,6 +20,7 @@ object ConfigManager {
 
   def getInt(configKey: String): Int = conf.getInt(configKey)
 
-  def getStringList(configKey: String): List[String] = conf.getStringList(configKey).asScala.toList
+  def getStringList(configKey: String): List[String] =
+    conf.getStringList(configKey).asScala.toList
 
 }
