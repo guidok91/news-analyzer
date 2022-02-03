@@ -2,7 +2,7 @@
 lazy val root = project
   .in(file("."))
   .settings(
-    name := "scala-example",
+    name := "twitter-api-demo",
     version := "0.1.0-SNAPSHOT",
 
     scalaVersion := "3.1.0",

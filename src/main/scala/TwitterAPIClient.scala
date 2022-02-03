@@ -1,4 +1,4 @@
-import requests.{get, Response}
+import requests.get
 import play.api.libs.json.Json
 
 class TwitterAPIClient(bearerToken: String) {
