@@ -8,7 +8,7 @@ on:
 
 jobs:
   ci:
-    name: "CI (Java version ${{ matrix.java-version }})"
+    name: "CI (Java ${{ matrix.java-version }})"
     strategy:
       matrix:
         java-version: [8, 11, 17]
