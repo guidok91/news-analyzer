@@ -11,10 +11,10 @@ The app needs a Bearer Token to authenticate against the API ([OAuth 2.0 App-Onl
 
 The token has to be be generated on the Twitter Developer portal. More info [here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api).
 
-Once you have generated one, place it in the [config file](conf/application.conf) (`auth_bearer_token`).
+Once you have generated one, place it in the [config file](application.conf) (`auth_bearer_token`).
 
 ### App config
-Keywords for tweet search must be specified in the [config file](conf/application.conf) (`tweet_keywords_query`).
+Keywords for tweet search must be specified in the [config file](application.conf) (`tweet_keywords_query`).
 
 ### Running the app
 Check the [Makefile](Makefile) for how to compile, test and run the application.
