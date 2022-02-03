@@ -18,8 +18,6 @@ object ConfigManager {
 
   def getString(configKey: String): String = conf.getString(configKey)
 
-  def getInt(configKey: String): Int = conf.getInt(configKey)
-
   def getStringList(configKey: String): List[String] =
     conf.getStringList(configKey).asScala.toList
 

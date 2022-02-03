@@ -1,7 +1,8 @@
 import org.scalatest.funsuite.AnyFunSuite
+import com.typesafe.config.ConfigException
 
 class ConfigManagerTest extends AnyFunSuite {
-  test("Test getString") {
+  test("Test getString with existent key") {
     // GIVEN
     val input = "twitter_api.auth_bearer_token"
     val outputExpected = "<PLACEHOLDER>"
@@ -11,6 +12,16 @@ class ConfigManagerTest extends AnyFunSuite {
 
     // THEN
     assert(outputExpected == output)
+  }
+
+  test("Test getString with inexistent key") {
+    // GIVEN
+    val input = "inexistent_key"
+
+    // THEN
+    assertThrows[ConfigException] {
+      ConfigManager.getString(input)
+    }
   }
 
   test("Test getStringList") {
