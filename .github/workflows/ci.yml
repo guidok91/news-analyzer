@@ -38,5 +38,8 @@ jobs:
       - name: Compile
         run: make compile
 
+      - name: Check code format
+        run: make format-check
+
       - name: Run tests
         run: make test

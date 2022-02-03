@@ -12,6 +12,9 @@ test:
 format:
 	sbt scalafmtAll
 
+format-check:
+	sbt scalafmtCheckAll
+
 run:
 	sbt run
 
