@@ -4,7 +4,7 @@ import com.typesafe.config.ConfigException
 class ConfigManagerTest extends AnyFunSuite {
   test("Test getString with existent key") {
     // GIVEN
-    val input = "twitter_api.auth_bearer_token"
+    val input = "auth_bearer_token"
     val outputExpected = "<PLACEHOLDER>"
 
     // WHEN
@@ -24,9 +24,21 @@ class ConfigManagerTest extends AnyFunSuite {
     }
   }
 
+  test("Test getInt with existent key") {
+    // GIVEN
+    val input = "tweet_max_results"
+    val outputExpected = 10
+
+    // WHEN
+    val output = ConfigManager.getInt(input)
+
+    // THEN
+    assert(outputExpected == output)
+  }
+
   test("Test getStringList") {
     // GIVEN
-    val input = "twitter_api.tweet_keywords_query"
+    val input = "tweet_keywords_query"
     val outputExpected = List("covid", "covid19", "coronavirus")
 
     // WHEN

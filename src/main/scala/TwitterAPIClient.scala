@@ -5,7 +5,8 @@ class TwitterAPIClient(bearerToken: String) {
 
   def getTweets(
       tweetKeywords: List[String],
-      tweetFields: List[String]
+      tweetFields: List[String],
+      maxResults: Int
   ): List[Map[String, String]] = {
     val searchQuery = buildSearchQuery(tweetKeywords)
     val tweetFieldsStr = tweetFields.mkString(",")
@@ -14,7 +15,8 @@ class TwitterAPIClient(bearerToken: String) {
       url = "https://api.twitter.com/2/tweets/search/recent",
       params = Map(
         "query" -> searchQuery,
-        "tweet.fields" -> tweetFieldsStr
+        "tweet.fields" -> tweetFieldsStr,
+        "max_results" -> maxResults.toString
       ),
       headers = Map("Authorization" -> s"Bearer $bearerToken")
     )
