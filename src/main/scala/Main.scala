@@ -1,12 +1,14 @@
 @main
 def main(args: String*): Unit = {
-  val bearerToken = ConfigManager.getString("twitter_api.auth_bearer_token")
+  val bearerToken = ConfigManager.getString("auth_bearer_token")
   val tweetKeywords =
-    ConfigManager.getStringList("twitter_api.tweet_keywords_query")
-  val tweetFields = ConfigManager.getStringList("twitter_api.tweet_fields")
+    ConfigManager.getStringList("tweet_keywords_query")
+  val tweetFields = ConfigManager.getStringList("tweet_fields")
+  val maxResults = ConfigManager.getInt("tweet_max_results")
 
   val twitterApiClient = new TwitterAPIClient(bearerToken)
-  val tweets = twitterApiClient.getTweets(tweetKeywords, tweetFields)
+  val tweets =
+    twitterApiClient.getTweets(tweetKeywords, tweetFields, maxResults)
 
   tweets.foreach(tweet =>
     println(
