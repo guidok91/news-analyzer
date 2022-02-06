@@ -14,7 +14,7 @@ The token has to be be generated on the Twitter Developer portal. More info [her
 Once you have generated one, place it in the [config file](conf/application.conf) (`auth_bearer_token`).
 
 ### App config
-Keywords for tweet search must be specified in the [config file](conf/application.conf) (`tweet_keywords_query`).
+Keywords for tweet search must be specified in the [config file](conf/application.conf) (`tweet_search_keywords`).
 
 ### Running the app
 Check the [Makefile](Makefile) for how to compile, test and run the application.

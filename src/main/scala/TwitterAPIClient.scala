@@ -4,11 +4,11 @@ import play.api.libs.json.Json
 class TwitterAPIClient(bearerToken: String) {
 
   def getTweets(
-      tweetKeywords: List[String],
+      tweetSearchKeywords: List[String],
       tweetFields: List[String],
       maxResults: Int
   ): List[Map[String, String]] = {
-    val searchQuery = buildSearchQuery(tweetKeywords)
+    val searchQuery = buildSearchQuery(tweetSearchKeywords)
     val tweetFieldsStr = tweetFields.mkString(",")
 
     val response = requests.get(
@@ -24,12 +24,13 @@ class TwitterAPIClient(bearerToken: String) {
     extractTweets(response.text())
   }
 
-  def buildSearchQuery(tweetKeywords: List[String]): String = {
-    if tweetKeywords.isEmpty then
+  def buildSearchQuery(tweetSearchKeywords: List[String]): String = {
+    if tweetSearchKeywords.isEmpty then
       throw NoDataFoundException(
         "At least one tweet search keyword must be specified"
       )
-    (tweetKeywords ++ tweetKeywords.map(t => s"#$t")).mkString(" OR ")
+    (tweetSearchKeywords ++ tweetSearchKeywords.map(t => s"#$t"))
+      .mkString(" OR ")
   }
 
   def extractTweets(response: String): List[Map[String, String]] = {

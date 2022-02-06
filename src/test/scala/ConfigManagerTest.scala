@@ -38,7 +38,7 @@ class ConfigManagerTest extends AnyFunSuite {
 
   test("Test getStringList") {
     // GIVEN
-    val input = "tweet_keywords_query"
+    val input = "tweet_search_keywords"
     val outputExpected = List("covid", "covid19", "coronavirus")
 
     // WHEN
