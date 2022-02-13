@@ -3,8 +3,6 @@
 
 Scala app that retrieves tweets using the [Twitter API](https://developer.twitter.com/en/docs/twitter-api) and performs sentiment analysis with the [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/) library.
 
-Only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
-
 ## Running instructions
 ### Authentication against the Twitter API
 The app needs a Bearer Token to authenticate against the API ([OAuth 2.0 App-Only](https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only) auth).
@@ -21,3 +19,12 @@ Check the [Makefile](Makefile) for how to compile, test and run the application.
 
 ## CI/CD
 A Github Actions workflow for CI/CD is defined [here](.github/workflows) and can be seen [here](https://github.com/guidok91/twitter-api-demo/actions).
+
+## Caveats
+### Twitter API
+Only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
+
+### Sentiment analysis
+Tweets are classified into `positive`, `neutral` or `negative` sentiments.
+
+If a tweet text contains multiple sentences, the most frequent sentiment is used (each sentence is assigned one sentiment).
