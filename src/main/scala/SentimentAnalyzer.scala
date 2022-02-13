@@ -12,7 +12,7 @@ object SentimentAnalyzer {
     * sentiment with the most amount of sentences is returned.
     *
     * @param text
-    *   text to be analyzed
+    *   text to be analyzed.
     * @return
     *   sentiment value (POSITIVE, NEUTRAL, or NEGATIVE).
     */
