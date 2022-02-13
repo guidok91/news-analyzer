@@ -1,5 +1,4 @@
 import org.scalatest.funsuite.AnyFunSuite
-import java.util.zip.ZipError
 
 class SentimentTest extends AnyFunSuite {
   test("Test toSentiment with sentiment = 0") {
