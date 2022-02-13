@@ -8,7 +8,9 @@ import edu.stanford.nlp.sentiment.SentimentCoreAnnotations
 object SentimentAnalyzer {
   def getSentiment(text: String): Sentiment.Value = {
     val sentiments = getSentiments(text)
-    val (_, sentiment) = sentiments.maxBy((sentence, _) => sentence.length)
+    val (sentiment, _) = sentiments
+      .groupBy((sentence, sentiment) => sentiment)
+      .maxBy((sentiment, sentences) => sentences.length)
     sentiment
   }
 
