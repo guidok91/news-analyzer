@@ -13,4 +13,5 @@ lazy val root = project
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test,
     libraryDependencies += "com.lihaoyi" %% "requests" % "0.7.0",
     libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.0-RC5",
+    libraryDependencies += "edu.stanford.nlp" % "stanford-corenlp" % "4.4.0" artifacts(Artifact("stanford-corenlp", "models"), Artifact("stanford-corenlp")),
   )

@@ -1,7 +1,7 @@
-# Twitter API demo in Scala
+# Tweet sentiment analysis
 ![workflow](https://github.com/guidok91/twitter-api-demo/actions/workflows/ci.yml/badge.svg)
 
-Scala demo app that consumes and displays tweets using the [Twitter API](https://developer.twitter.com/en/docs/twitter-api).
+Scala app that retrieves tweets using the [Twitter API](https://developer.twitter.com/en/docs/twitter-api) and performs sentiment analysis with the [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/) library.
 
 Only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
 
