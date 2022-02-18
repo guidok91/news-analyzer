@@ -8,8 +8,8 @@ import edu.stanford.nlp.sentiment.SentimentCoreAnnotations
 object SentimentAnalyzer {
 
   /** Returns the sentiment of a given text. If the text consists of multiple
-    * sentences, since each sentence can have a different sentiment, the
-    * sentiment with the most amount of sentences is returned.
+    * sentences, since each sentence can have a different sentiment, the most
+    * frequent sentiment is returned.
     *
     * @param text
     *   text to be analyzed.
