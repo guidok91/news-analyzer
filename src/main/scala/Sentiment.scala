@@ -3,8 +3,12 @@ object Sentiment extends Enumeration {
   val POSITIVE, NEGATIVE, NEUTRAL = Value
 
   def toSentiment(sentiment: Int): Sentiment = sentiment match {
-    case x if x == 0 || x == 1 => Sentiment.NEGATIVE
-    case 2                     => Sentiment.NEUTRAL
-    case x if x == 3 || x == 4 => Sentiment.POSITIVE
+    case 0 | 1 => Sentiment.NEGATIVE
+    case 2     => Sentiment.NEUTRAL
+    case 3 | 4 => Sentiment.POSITIVE
+    case _ =>
+      throw new MatchError(
+        "Only integer sentiment values from 0 to 4 are accepted"
+      )
   }
 }
