@@ -5,6 +5,8 @@ Scala app that retrieves tweets using the [Twitter API](https://developer.twitte
 
 Tweets are retrieved based on search keywords we specify, and the tweet text is fed to the NLP library for sentiment analysis.
 
+In this first version of the app, tweets and their sentiments are simply printed as stdout.
+
 ## Twitter API
 The app needs a Bearer Token to authenticate against the API ([OAuth 2.0 App-Only](https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only) auth).
 
