@@ -1,22 +1,31 @@
-SHELL=/bin/bash
+.PHONY: help
+help:
+	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
 
-compile:
+.PHONY: 
+compile: # Compile app code.
 	sbt compile
 
-package:
+.PHONY: 
+package: # Package app code.
 	sbt package
 
-test:
+.PHONY: 
+test: # Run tests.
 	sbt test
 
-format:
+.PHONY: 
+format: # Format app code.
 	sbt scalafmtAll
 
-format-check:
+.PHONY: 
+format-check: # Check code format.
 	sbt scalafmtCheckAll
 
-run:
+.PHONY: 
+run: # Run app.
 	sbt run
 
-clean:
+.PHONY: 
+clean: # Clean auxiliary files.
 	sbt clean
