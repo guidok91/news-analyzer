@@ -30,12 +30,8 @@
         },
         {
             "name": "sentiment",
-            "type": {
-                "name": "sentiment",
-                "type": "enum",
-                "symbols": ["NEGATIVE", "NEUTRAL", "POSITIVE"],
-                "doc": "Sentiment of the tweet."
-            }
+            "type": "string",
+            "doc": "Sentiment of the tweet."
         }
     ]
 }

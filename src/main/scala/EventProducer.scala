@@ -38,8 +38,11 @@ class EventProducer(
         "created_at",
         Instant.parse(tweet("created_at").asInstanceOf[String]).getEpochSecond
       )
-      avroRecord.put("lang", tweet("id").asInstanceOf[String])
-      avroRecord.put("sentiment", tweet("id").asInstanceOf[String])
+      avroRecord.put("lang", tweet("lang").asInstanceOf[String])
+      avroRecord.put(
+        "sentiment",
+        tweet("sentiment").asInstanceOf[Sentiment.Value].toString()
+      )
 
       val record = ProducerRecord(
         topic,
