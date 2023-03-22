@@ -1,10 +1,10 @@
 @main
 def main(args: String*): Unit = {
-  val tweets = getTweets()
+  val tweets = getAndEnrichTweets()
   produceTweetsToKafka(tweets)
 }
 
-private def getTweets(): List[Map[String, Any]] = {
+private def getAndEnrichTweets(): List[Map[String, Any]] = {
   val bearerToken = ConfigManager.getString("tweeter.api_auth_bearer_token")
   val tweetSearchKeywords =
     ConfigManager.getStringList("tweeter.search_keywords")
