@@ -1,0 +1,12 @@
+{
+    "type": "record",
+    "namespace": "io.tweets",
+    "name": "TweetSentiment",
+    "fields": [
+        {"name": "id", "type": "int", "doc": "ID of the tweet."},
+        {"name": "text", "type": "string", "doc": "Text of the tweet."},
+        {"name": "created_at", "type": "timestamp", "doc": "Tweet creation timestamp."},
+        {"name": "lang", "timestamp-millis": "string", "doc": "Language of the tweet."},
+        {"name": "sentiment", "type": "enum", "symbols": ["NEGATIVE", "NEUTRAL", "POSITIVE"], "doc": "Sentiment of the tweet."}
+    ]
+}

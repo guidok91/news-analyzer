@@ -1,10 +1,15 @@
 @main
 def main(args: String*): Unit = {
-  val bearerToken = ConfigManager.getString("auth_bearer_token")
+  val tweets = getTweets()
+  produceTweetsToKafka(tweets)
+}
+
+private def getTweets(): List[Map[String, Any]] = {
+  val bearerToken = ConfigManager.getString("tweeter.api_auth_bearer_token")
   val tweetSearchKeywords =
-    ConfigManager.getStringList("tweet_search_keywords")
-  val tweetFields = ConfigManager.getStringList("tweet_fields")
-  val maxResults = ConfigManager.getInt("tweet_max_results")
+    ConfigManager.getStringList("tweeter.search_keywords")
+  val tweetFields = ConfigManager.getStringList("tweeter.fields")
+  val maxResults = ConfigManager.getInt("tweeter.max_results")
 
   val twitterApiClient = new TwitterAPIClient(bearerToken)
 
@@ -14,13 +19,14 @@ def main(args: String*): Unit = {
       tweet + ("sentiment" -> SentimentAnalyzer
         .getSentiment(tweet("text").asInstanceOf[String]))
     )
-    .foreach(tweet =>
-      println(
-        s"Tweet id: ${tweet("id")}\n" +
-          s"Tweet text: ${tweet("text")}\n" +
-          s"Tweet created_at: ${tweet("created_at")}\n" +
-          s"Tweet lang: ${tweet("lang")}\n" +
-          s"Tweet sentiment: ${tweet("sentiment")}\n"
-      )
-    )
+}
+
+private def produceTweetsToKafka(tweets: List[Map[String, Any]]): Unit = {
+  val topic = ConfigManager.getString("kafka.topic")
+  val brokerUrl = ConfigManager.getString("kafka.broker_url")
+  val schemaRegistryUrl = ConfigManager.getString("kafka.schema_registry_url")
+  val avroSchema =
+    scala.io.Source.fromFile("conf/tweet-sentiment-avro-schema.avsc").mkString
+
+  EventProducer(topic, avroSchema, brokerUrl, schemaRegistryUrl).produce(tweets)
 }

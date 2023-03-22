@@ -12,9 +12,9 @@ The app needs a Bearer Token to authenticate against the API ([OAuth 2.0 App-Onl
 
 The token has to be be generated on the Twitter Developer portal. More info [here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api).
 
-Once you have generated one, place it in the [config file](conf/application.conf) (`auth_bearer_token`).
+Once you have generated one, place it in the [config file](conf/application.conf) (`tweeter.api_auth_bearer_token`).
 
-Keywords for tweet search must also be specified in the [config file](conf/application.conf) (`tweet_search_keywords`).
+Keywords for tweet search must also be specified in the [config file](conf/application.conf) (`tweeter.search_keywords`).
 
 Caveat: only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
 
