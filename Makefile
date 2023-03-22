@@ -44,7 +44,8 @@ kafka-create-topic: # Create Kafka topic.
 	kafka-topics \
 	--bootstrap-server broker:9092 \
 	--create \
-	--topic tweet_sentiments
+	--topic tweet_sentiments \
+	--partitions 6
 
 .PHONY: kafka-read-test-events
 kafka-read-test-events: # Read and display events.
