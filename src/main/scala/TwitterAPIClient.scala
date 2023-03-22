@@ -1,5 +1,6 @@
 import requests.get
-import play.api.libs.json.Json
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 
 class TwitterAPIClient(bearerToken: String) {
 
@@ -7,7 +8,7 @@ class TwitterAPIClient(bearerToken: String) {
       tweetSearchKeywords: List[String],
       tweetFields: List[String],
       maxResults: Int
-  ): List[Map[String, String]] = {
+  ): List[Map[String, Any]] = {
     val searchQuery = buildSearchQuery(tweetSearchKeywords)
     val tweetFieldsStr = tweetFields.mkString(",")
 
@@ -33,11 +34,13 @@ class TwitterAPIClient(bearerToken: String) {
       .mkString(" OR ")
   }
 
-  def extractTweets(response: String): List[Map[String, String]] = {
-    val response_json = Json.parse(response)
+  def extractTweets(response: String): List[Map[String, Any]] = {
+    implicit val formats = org.json4s.DefaultFormats
 
-    (response_json \ "data").asOpt[List[Map[String, String]]] match {
-      case Some(rows) => rows
+    val response_parsed = parse(response).extract[Map[String, Any]]
+
+    response_parsed.get("data") match {
+      case Some(rows) => rows.asInstanceOf[List[Map[String, Any]]]
       case None =>
         throw new NoDataFoundException(
           "No tweets found for the given search parameters"

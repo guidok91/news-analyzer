@@ -11,7 +11,8 @@ def main(args: String*): Unit = {
   twitterApiClient
     .getTweets(tweetSearchKeywords, tweetFields, maxResults)
     .map(tweet =>
-      tweet + ("sentiment" -> SentimentAnalyzer.getSentiment(tweet("text")))
+      tweet + ("sentiment" -> SentimentAnalyzer
+        .getSentiment(tweet("text").asInstanceOf[String]))
     )
     .foreach(tweet =>
       println(

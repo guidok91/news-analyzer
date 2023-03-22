@@ -12,6 +12,6 @@ lazy val root = project
     libraryDependencies += "com.typesafe" % "config" % "1.4.2",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % Test,
     libraryDependencies += "com.lihaoyi" %% "requests" % "0.8.0",
-    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
+    libraryDependencies += "org.json4s" %% "json4s-jackson" % "4.0.6",
     libraryDependencies += "edu.stanford.nlp" % "stanford-corenlp" % "4.5.2" artifacts(Artifact("stanford-corenlp", "models"), Artifact("stanford-corenlp")),
   )
