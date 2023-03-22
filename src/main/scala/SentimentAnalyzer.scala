@@ -25,9 +25,9 @@ object SentimentAnalyzer {
   }
 
   private def getSentiments(text: String): List[(String, Sentiment.Value)] = {
-    val props = new Properties()
+    val props = Properties()
     props.setProperty("annotators", "tokenize, ssplit, parse, sentiment")
-    val annotation = new StanfordCoreNLP(props).process(text)
+    val annotation = StanfordCoreNLP(props).process(text)
 
     annotation
       .get(classOf[CoreAnnotations.SentencesAnnotation])

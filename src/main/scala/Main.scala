@@ -11,7 +11,7 @@ private def getTweets(): List[Map[String, Any]] = {
   val tweetFields = ConfigManager.getStringList("tweeter.fields")
   val maxResults = ConfigManager.getInt("tweeter.max_results")
 
-  val twitterApiClient = new TwitterAPIClient(bearerToken)
+  val twitterApiClient = TwitterAPIClient(bearerToken)
 
   twitterApiClient
     .getTweets(tweetSearchKeywords, tweetFields, maxResults)

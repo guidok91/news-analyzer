@@ -42,7 +42,7 @@ class TwitterAPIClient(bearerToken: String) {
     response_parsed.get("data") match {
       case Some(rows) => rows.asInstanceOf[List[Map[String, Any]]]
       case None =>
-        throw new NoDataFoundException(
+        throw NoDataFoundException(
           "No tweets found for the given search parameters"
         )
     }

@@ -6,10 +6,10 @@ object ConfigManager {
   private val conf: Config = readConfigFile("conf/application.conf")
 
   private def readConfigFile(configFilePath: String): Config = {
-    val configFile = new File(configFilePath)
+    val configFile = File(configFilePath)
 
     if (!configFile.exists())
-      throw new FileNotFoundException(
+      throw FileNotFoundException(
         s"Config file $configFilePath does not exist"
       )
 
