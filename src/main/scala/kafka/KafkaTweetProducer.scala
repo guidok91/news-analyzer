@@ -1,6 +1,7 @@
 package kafka
 
 import sentiment.Sentiment
+import tweeter.Tweet
 import java.time.Instant
 import java.util.Properties
 import org.apache.avro.Schema.Parser
@@ -15,11 +16,11 @@ class KafkaTweetProducer(
 ) {
   val producer = buildProducer()
 
-  def produce(tweets: List[Map[String, Any]]): Unit = {
+  def produce(tweets: List[Tweet]): Unit = {
     for (tweet <- tweets) {
       val record = ProducerRecord(
         topic,
-        tweet("author_id").asInstanceOf[String],
+        tweet.author_id.toString(),
         buildAvroRecord(tweet)
       )
       val ack = producer.send(record).get()
@@ -45,23 +46,17 @@ class KafkaTweetProducer(
     KafkaProducer[String, GenericData.Record](props)
   }
 
-  private def buildAvroRecord(tweet: Map[String, Any]): GenericData.Record = {
+  private def buildAvroRecord(tweet: Tweet): GenericData.Record = {
     val avroRecord = GenericData.Record(Parser().parse(avroSchema))
 
-    avroRecord.put("id", tweet("id").asInstanceOf[String].toLong)
-    avroRecord.put(
-      "author_id",
-      tweet("author_id").asInstanceOf[String].toLong
-    )
-    avroRecord.put("text", tweet("text").asInstanceOf[String])
-    avroRecord.put(
-      "created_at",
-      Instant.parse(tweet("created_at").asInstanceOf[String]).getEpochSecond
-    )
-    avroRecord.put("lang", tweet("lang").asInstanceOf[String])
+    avroRecord.put("id", tweet.id)
+    avroRecord.put("author_id", tweet.author_id)
+    avroRecord.put("text", tweet.text)
+    avroRecord.put("created_at", tweet.created_at)
+    avroRecord.put("lang", tweet.lang)
     avroRecord.put(
       "sentiment",
-      tweet("sentiment").asInstanceOf[Sentiment.Value].toString()
+      tweet.sentiment.asInstanceOf[Sentiment.Value].toString()
     )
 
     avroRecord

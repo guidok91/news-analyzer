@@ -1,4 +1,4 @@
-import tweeter.TwitterAPIClient
+import tweeter.{Tweet, TwitterAPIClient}
 import config.ConfigManager
 import sentiment.SentimentAnalyzer
 import kafka.KafkaTweetProducer
@@ -9,7 +9,7 @@ def main(args: String*): Unit = {
   produceTweetsToKafka(tweets)
 }
 
-private def getAndEnrichTweets(): List[Map[String, Any]] = {
+private def getAndEnrichTweets(): List[Tweet] = {
   val bearerToken = ConfigManager.getString("tweeter.api_auth_bearer_token")
   val tweetSearchKeywords =
     ConfigManager.getStringList("tweeter.search_keywords")
@@ -20,13 +20,10 @@ private def getAndEnrichTweets(): List[Map[String, Any]] = {
 
   twitterApiClient
     .getTweets(tweetSearchKeywords, tweetFields, maxResults)
-    .map(tweet =>
-      tweet + ("sentiment" -> SentimentAnalyzer
-        .getSentiment(tweet("text").asInstanceOf[String]))
-    )
+    .map(tweet => Tweet(tweet))
 }
 
-private def produceTweetsToKafka(tweets: List[Map[String, Any]]): Unit = {
+private def produceTweetsToKafka(tweets: List[Tweet]): Unit = {
   val topic = ConfigManager.getString("kafka.topic")
   val brokerUrl = ConfigManager.getString("kafka.broker_url")
   val schemaRegistryUrl = ConfigManager.getString("kafka.schema_registry_url")
