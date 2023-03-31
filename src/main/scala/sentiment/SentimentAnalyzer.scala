@@ -1,3 +1,6 @@
+package sentiment
+
+import sentiment.Sentiment
 import java.util.Properties
 import collection.JavaConverters._
 import edu.stanford.nlp.ling.CoreAnnotations

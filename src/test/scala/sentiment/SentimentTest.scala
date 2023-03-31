@@ -1,3 +1,6 @@
+package sentiment
+
+import sentiment.Sentiment
 import org.scalatest.funsuite.AnyFunSuite
 
 class SentimentTest extends AnyFunSuite {

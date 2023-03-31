@@ -1,3 +1,5 @@
+package config
+
 import java.io.{File, FileNotFoundException}
 import com.typesafe.config.{Config, ConfigFactory}
 import collection.JavaConverters._

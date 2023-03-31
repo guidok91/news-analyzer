@@ -1,3 +1,8 @@
+import tweeter.TwitterAPIClient
+import config.ConfigManager
+import sentiment.SentimentAnalyzer
+import kafka.KafkaTweetProducer
+
 @main
 def main(args: String*): Unit = {
   val tweets = getAndEnrichTweets()

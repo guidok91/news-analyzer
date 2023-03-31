@@ -1,3 +1,6 @@
+package tweeter
+
+import tweeter.{TwitterAPIClient, NoDataFoundException}
 import org.scalatest.funsuite.AnyFunSuite
 
 class TwitterAPIClientTest extends AnyFunSuite {

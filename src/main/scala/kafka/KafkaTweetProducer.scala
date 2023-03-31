@@ -1,3 +1,6 @@
+package kafka
+
+import sentiment.Sentiment
 import java.time.Instant
 import java.util.Properties
 import org.apache.avro.Schema.Parser

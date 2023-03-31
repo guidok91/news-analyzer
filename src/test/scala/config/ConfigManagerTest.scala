@@ -1,3 +1,6 @@
+package config
+
+import config.ConfigManager
 import org.scalatest.funsuite.AnyFunSuite
 import com.typesafe.config.ConfigException
 
