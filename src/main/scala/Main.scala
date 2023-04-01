@@ -1,6 +1,5 @@
 import tweeter.{Tweet, TwitterAPIClient}
 import config.ConfigManager
-import sentiment.SentimentAnalyzer
 import kafka.KafkaTweetProducer
 
 @main

@@ -2,7 +2,6 @@ package kafka
 
 import sentiment.Sentiment
 import tweeter.Tweet
-import java.time.Instant
 import java.util.Properties
 import org.apache.avro.Schema.Parser
 import org.apache.avro.generic.GenericData
