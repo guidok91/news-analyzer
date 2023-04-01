@@ -5,7 +5,9 @@ import com.typesafe.config.{Config, ConfigFactory}
 import collection.JavaConverters._
 
 object ConfigManager {
-  private val conf: Config = readConfigFile("conf/application.conf")
+  private val conf: Config = readConfigFile(
+    "src/main/resources/application.conf"
+  )
 
   private def readConfigFile(configFilePath: String): Config = {
     val configFile = File(configFilePath)

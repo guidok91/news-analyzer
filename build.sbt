@@ -7,14 +7,14 @@ lazy val root = project
 
     scalaVersion := "3.2.2",
 
-    scalafmtConfig := new File("conf/scalafmt.conf"),
+    scalafmtConfig := new File("src/main/resources/scalafmt.conf"),
 
     resolvers += Classpaths.typesafeReleases,
     resolvers += "confluent" at "https://packages.confluent.io/maven/",
 
     libraryDependencies += "com.typesafe" % "config" % "1.4.2",
     libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.6",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.3.5",
 
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % Test,
 

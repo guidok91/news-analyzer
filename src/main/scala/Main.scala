@@ -27,7 +27,9 @@ private def produceTweetsToKafka(tweets: List[Tweet]): Unit = {
   val brokerUrl = ConfigManager.getString("kafka.broker_url")
   val schemaRegistryUrl = ConfigManager.getString("kafka.schema_registry_url")
   val avroSchema =
-    scala.io.Source.fromFile("conf/tweet-sentiment-avro-schema.avsc").mkString
+    scala.io.Source
+      .fromFile("src/main/resources/tweet-sentiment-avro-schema.avsc")
+      .mkString
 
   KafkaTweetProducer(topic, avroSchema, brokerUrl, schemaRegistryUrl).produce(
     tweets
