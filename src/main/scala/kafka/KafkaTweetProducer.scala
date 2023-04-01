@@ -9,6 +9,9 @@ import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.kafka.clients.producer.{Callback, RecordMetadata}
 import org.apache.kafka.common.serialization.StringSerializer
 import io.confluent.kafka.serializers.KafkaAvroSerializer
+import com.typesafe.scalalogging.Logger
+
+private val logger = Logger(classOf[KafkaTweetProducer].getName())
 
 class KafkaTweetProducer(
     topic: String,
@@ -66,10 +69,12 @@ private class ProducerCallback extends Callback {
   ): Unit = {
     exception.match {
       case null =>
-        println(s"Written record to topic ${metadata.topic()} on ${metadata
-            .timestamp()} to partition ${metadata.partition()}")
+        logger.info(
+          s"Written record to topic ${metadata.topic()} (timestamp ${metadata
+              .timestamp()} partition ${metadata.partition()})"
+        )
       case e =>
-        println(
+        logger.error(
           s"There was an error producing the record. Stack trace: ${e.printStackTrace()}"
         )
     }
