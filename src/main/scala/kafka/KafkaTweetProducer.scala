@@ -7,6 +7,8 @@ import org.apache.avro.Schema.Parser
 import org.apache.avro.generic.GenericData
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.kafka.clients.producer.{Callback, RecordMetadata}
+import org.apache.kafka.common.serialization.StringSerializer
+import io.confluent.kafka.serializers.KafkaAvroSerializer
 
 class KafkaTweetProducer(
     topic: String,
@@ -32,14 +34,8 @@ class KafkaTweetProducer(
 
     props.put("bootstrap.servers", brokerUrl)
     props.put("schema.registry.url", schemaRegistryUrl)
-    props.put(
-      "key.serializer",
-      "io.confluent.kafka.serializers.KafkaAvroSerializer"
-    )
-    props.put(
-      "value.serializer",
-      "io.confluent.kafka.serializers.KafkaAvroSerializer"
-    )
+    props.put("key.serializer", classOf[StringSerializer].getName)
+    props.put("value.serializer", classOf[KafkaAvroSerializer].getName)
     props.put("acks", "1")
 
     KafkaProducer[String, GenericData.Record](props)
