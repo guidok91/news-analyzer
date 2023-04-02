@@ -1,3 +1,5 @@
+package sentiment
+
 object Sentiment extends Enumeration {
   type Sentiment = Value
   val POSITIVE, NEGATIVE, NEUTRAL = Value
@@ -7,7 +9,7 @@ object Sentiment extends Enumeration {
     case 2     => Sentiment.NEUTRAL
     case 3 | 4 => Sentiment.POSITIVE
     case _ =>
-      throw new MatchError(
+      throw MatchError(
         "Only integer sentiment values from 0 to 4 are accepted"
       )
   }

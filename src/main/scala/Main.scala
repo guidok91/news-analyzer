@@ -1,26 +1,41 @@
+import tweeter.{Tweet, TwitterAPIClient}
+import config.ConfigManager
+import kafka.KafkaTweetProducer
+
 @main
 def main(args: String*): Unit = {
-  val bearerToken = ConfigManager.getString("auth_bearer_token")
-  val tweetSearchKeywords =
-    ConfigManager.getStringList("tweet_search_keywords")
-  val tweetFields = ConfigManager.getStringList("tweet_fields")
-  val maxResults = ConfigManager.getInt("tweet_max_results")
+  val configManager = ConfigManager("src/main/resources/application.conf")
+  val tweets = getAndEnrichTweets(configManager)
+  produceTweetsToKafka(tweets, configManager)
+}
 
-  val twitterApiClient = new TwitterAPIClient(bearerToken)
+private def getAndEnrichTweets(configManager: ConfigManager): List[Tweet] = {
+  val bearerToken = configManager.getString("tweeter.api_auth_bearer_token")
+  val tweetSearchKeywords =
+    configManager.getStringList("tweeter.search_keywords")
+  val tweetFields = configManager.getStringList("tweeter.fields")
+  val maxResults = configManager.getInt("tweeter.max_results")
+
+  val twitterApiClient = TwitterAPIClient(bearerToken)
 
   twitterApiClient
     .getTweets(tweetSearchKeywords, tweetFields, maxResults)
-    .map(tweet =>
-      tweet + ("sentiment" -> SentimentAnalyzer
-        .getSentiment(tweet("text").asInstanceOf[String]))
-    )
-    .foreach(tweet =>
-      println(
-        s"Tweet id: ${tweet("id")}\n" +
-          s"Tweet text: ${tweet("text")}\n" +
-          s"Tweet created_at: ${tweet("created_at")}\n" +
-          s"Tweet lang: ${tweet("lang")}\n" +
-          s"Tweet sentiment: ${tweet("sentiment")}\n"
-      )
-    )
+    .map(tweet => Tweet(tweet))
+}
+
+private def produceTweetsToKafka(
+    tweets: List[Tweet],
+    configManager: ConfigManager
+): Unit = {
+  val topic = configManager.getString("kafka.topic")
+  val brokerUrl = configManager.getString("kafka.broker_url")
+  val schemaRegistryUrl = configManager.getString("kafka.schema_registry_url")
+  val avroSchema =
+    scala.io.Source
+      .fromFile("src/main/resources/tweet-sentiment-avro-schema.avsc")
+      .mkString
+
+  KafkaTweetProducer(topic, avroSchema, brokerUrl, schemaRegistryUrl).produce(
+    tweets
+  )
 }

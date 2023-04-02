@@ -29,3 +29,29 @@ run: # Run app.
 .PHONY: 
 clean: # Clean auxiliary files.
 	sbt clean
+
+.PHONY: kafka-up
+kafka-up: # Spin up local Kafka instance with Docker. 
+	docker-compose up -d
+
+.PHONY: kafka-down
+kafka-down: # Tear down local Kafka instance. 
+	docker-compose down
+
+.PHONY: kafka-create-topic
+kafka-create-topic: # Create Kafka topic.
+	docker exec broker \
+	kafka-topics \
+	--bootstrap-server broker:9092 \
+	--create \
+	--topic tweet_sentiments \
+	--partitions 6
+
+.PHONY: kafka-read-test-events
+kafka-read-test-events: # Read and display events.
+	docker exec --interactive --tty schema-registry \
+	kafka-avro-console-consumer \
+	--topic tweet_sentiments \
+	--bootstrap-server broker:9092 \
+	--property schema.registry.url=http://localhost:8081 \
+	--from-beginning

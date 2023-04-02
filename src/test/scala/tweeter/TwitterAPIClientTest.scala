@@ -1,7 +1,10 @@
+package tweeter
+
+import tweeter.{TwitterAPIClient, NoDataFoundException}
 import org.scalatest.funsuite.AnyFunSuite
 
 class TwitterAPIClientTest extends AnyFunSuite {
-  val twitterApiClient = new TwitterAPIClient("test token")
+  val twitterApiClient = TwitterAPIClient("test token")
 
   test("Test buildSearchQuery with non-empty input") {
     // GIVEN

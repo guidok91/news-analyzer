@@ -1,15 +1,19 @@
+package config
+
 import java.io.{File, FileNotFoundException}
 import com.typesafe.config.{Config, ConfigFactory}
 import collection.JavaConverters._
 
-object ConfigManager {
-  private val conf: Config = readConfigFile("conf/application.conf")
+class ConfigManager(configFilePath: String) {
+  private val conf: Config = readConfigFile(
+    configFilePath
+  )
 
   private def readConfigFile(configFilePath: String): Config = {
-    val configFile = new File(configFilePath)
+    val configFile = File(configFilePath)
 
     if (!configFile.exists())
-      throw new FileNotFoundException(
+      throw FileNotFoundException(
         s"Config file $configFilePath does not exist"
       )
 

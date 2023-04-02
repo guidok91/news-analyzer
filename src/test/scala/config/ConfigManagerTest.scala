@@ -1,14 +1,19 @@
+package config
+
+import config.ConfigManager
 import org.scalatest.funsuite.AnyFunSuite
 import com.typesafe.config.ConfigException
 
 class ConfigManagerTest extends AnyFunSuite {
+  val configManager = ConfigManager("src/test/resources/application.conf")
+
   test("Test getString with existent key") {
     // GIVEN
-    val input = "auth_bearer_token"
-    val outputExpected = "<PLACEHOLDER>"
+    val input = "categ.string_key"
+    val outputExpected = "string_value"
 
     // WHEN
-    val output = ConfigManager.getString(input)
+    val output = configManager.getString(input)
 
     // THEN
     assert(outputExpected == output)
@@ -16,21 +21,21 @@ class ConfigManagerTest extends AnyFunSuite {
 
   test("Test getString with inexistent key") {
     // GIVEN
-    val input = "inexistent_key"
+    val input = "categ.string_key_inexistent"
 
     // THEN
     assertThrows[ConfigException] {
-      ConfigManager.getString(input)
+      configManager.getString(input)
     }
   }
 
   test("Test getInt with existent key") {
     // GIVEN
-    val input = "tweet_max_results"
-    val outputExpected = 10
+    val input = "categ.int_key"
+    val outputExpected = 5
 
     // WHEN
-    val output = ConfigManager.getInt(input)
+    val output = configManager.getInt(input)
 
     // THEN
     assert(outputExpected == output)
@@ -38,11 +43,11 @@ class ConfigManagerTest extends AnyFunSuite {
 
   test("Test getStringList") {
     // GIVEN
-    val input = "tweet_search_keywords"
-    val outputExpected = List("crypto", "cryptocurrency", "bitcoin", "ethereum")
+    val input = "categ.string_list_key"
+    val outputExpected = List("string_value_1", "string_value_2")
 
     // WHEN
-    val output = ConfigManager.getStringList(input)
+    val output = configManager.getStringList(input)
 
     // THEN
     assert(outputExpected == output)

@@ -1,3 +1,5 @@
+package tweeter
+
 import requests.get
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
@@ -42,7 +44,7 @@ class TwitterAPIClient(bearerToken: String) {
     response_parsed.get("data") match {
       case Some(rows) => rows.asInstanceOf[List[Map[String, Any]]]
       case None =>
-        throw new NoDataFoundException(
+        throw NoDataFoundException(
           "No tweets found for the given search parameters"
         )
     }
