@@ -4,9 +4,9 @@ import java.io.{File, FileNotFoundException}
 import com.typesafe.config.{Config, ConfigFactory}
 import collection.JavaConverters._
 
-object ConfigManager {
+class ConfigManager(configFilePath: String) {
   private val conf: Config = readConfigFile(
-    "src/main/resources/application.conf"
+    configFilePath
   )
 
   private def readConfigFile(configFilePath: String): Config = {

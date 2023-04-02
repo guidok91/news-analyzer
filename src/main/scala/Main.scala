@@ -4,16 +4,17 @@ import kafka.KafkaTweetProducer
 
 @main
 def main(args: String*): Unit = {
-  val tweets = getAndEnrichTweets()
-  produceTweetsToKafka(tweets)
+  val configManager = ConfigManager("src/main/resources/application.conf")
+  val tweets = getAndEnrichTweets(configManager)
+  produceTweetsToKafka(tweets, configManager)
 }
 
-private def getAndEnrichTweets(): List[Tweet] = {
-  val bearerToken = ConfigManager.getString("tweeter.api_auth_bearer_token")
+private def getAndEnrichTweets(configManager: ConfigManager): List[Tweet] = {
+  val bearerToken = configManager.getString("tweeter.api_auth_bearer_token")
   val tweetSearchKeywords =
-    ConfigManager.getStringList("tweeter.search_keywords")
-  val tweetFields = ConfigManager.getStringList("tweeter.fields")
-  val maxResults = ConfigManager.getInt("tweeter.max_results")
+    configManager.getStringList("tweeter.search_keywords")
+  val tweetFields = configManager.getStringList("tweeter.fields")
+  val maxResults = configManager.getInt("tweeter.max_results")
 
   val twitterApiClient = TwitterAPIClient(bearerToken)
 
@@ -22,10 +23,13 @@ private def getAndEnrichTweets(): List[Tweet] = {
     .map(tweet => Tweet(tweet))
 }
 
-private def produceTweetsToKafka(tweets: List[Tweet]): Unit = {
-  val topic = ConfigManager.getString("kafka.topic")
-  val brokerUrl = ConfigManager.getString("kafka.broker_url")
-  val schemaRegistryUrl = ConfigManager.getString("kafka.schema_registry_url")
+private def produceTweetsToKafka(
+    tweets: List[Tweet],
+    configManager: ConfigManager
+): Unit = {
+  val topic = configManager.getString("kafka.topic")
+  val brokerUrl = configManager.getString("kafka.broker_url")
+  val schemaRegistryUrl = configManager.getString("kafka.schema_registry_url")
   val avroSchema =
     scala.io.Source
       .fromFile("src/main/resources/tweet-sentiment-avro-schema.avsc")
