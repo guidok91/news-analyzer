@@ -5,16 +5,16 @@ Scala app that retrieves tweets using the [Twitter API](https://developer.twitte
 
 Tweets are retrieved based on search keywords we specify, and the tweet text is fed to the NLP library for sentiment analysis.
 
-In this first version of the app, tweets and their sentiments are simply printed as stdout.
+Finally, tweets are produced to a Kafka topic.
 
 ## Twitter API
 The app needs a Bearer Token to authenticate against the API ([OAuth 2.0 App-Only](https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only) auth).
 
 The token has to be be generated on the Twitter Developer portal. More info [here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api).
 
-Once you have generated one, place it in the [config file](conf/application.conf) (`tweeter.api_auth_bearer_token`).
+Once you have generated one, place it in the [config file](src/main/resources/application.conf) (`tweeter.api_auth_bearer_token`).
 
-Keywords for tweet search must also be specified in the [config file](conf/application.conf) (`tweeter.search_keywords`).
+Keywords for tweet search must also be specified in the [config file](src/main/resources/application.conf) (`tweeter.search_keywords`).
 
 Caveat: only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
 
@@ -25,6 +25,11 @@ The `Stanford CoreNLP` library works by splitting a text into sentences and and 
 * Values 3 or 4 => `positive` sentiment.
 
 Given this, if a tweet contains multiple sentences, we pick the most frequently assigned sentiment.
+
+## Kafka topic
+Tweets are produced to a Kafka topic using Avro serialization.
+
+A local Kafka instance with schema registry is available (see [docker-compose.yml](docker-compose.yml)).
 
 ## Running instructions
 Check the [Makefile](Makefile) for how to compile, test and run the application.
