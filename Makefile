@@ -44,14 +44,14 @@ kafka-create-topic: # Create Kafka topic.
 	kafka-topics \
 	--bootstrap-server broker:9092 \
 	--create \
-	--topic tweet_sentiments \
+	--topic tweets.sentiment.v1 \
 	--partitions 6
 
 .PHONY: kafka-read-test-events
 kafka-read-test-events: # Read and display events.
 	docker exec --interactive --tty schema-registry \
 	kafka-avro-console-consumer \
-	--topic tweet_sentiments \
+	--topic tweets.sentiment.v1 \
 	--bootstrap-server broker:9092 \
 	--property schema.registry.url=http://localhost:8081 \
 	--from-beginning
