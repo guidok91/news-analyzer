@@ -1,38 +1,32 @@
-# Tweet sentiment analysis
-![workflow](https://github.com/guidok91/twitter-api-demo/actions/workflows/ci.yml/badge.svg)
+# Tweeter sentiment analysis
+Python app to analyse the overall sentiment about a specific topic in Twitter using LLMs.
 
-Scala app that retrieves tweets using the [Twitter API](https://developer.twitter.com/en/docs/twitter-api) and performs sentiment analysis with the [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/) library.
-
-Tweets are retrieved based on search keywords we specify, and the tweet text is fed to the NLP library for sentiment analysis.
-
-Finally, tweets are produced to a Kafka topic.
-
-## Twitter API
-The app needs a Bearer Token to authenticate against the API ([OAuth 2.0 App-Only](https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only) auth).
-
-The token has to be be generated on the Twitter Developer portal. More info [here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api).
-
-Once you have generated one, place it in the [config file](src/main/resources/application.conf) (`tweeter.api_auth_bearer_token`).
-
-Keywords for tweet search must also be specified in the [config file](src/main/resources/application.conf) (`tweeter.search_keywords`).
-
-Caveat: only tweets for the last week are retrieved (we use the `Recent search` option as opposed to the `Full-archive search`).
-
-## Sentiment analysis
-The `Stanford CoreNLP` library works by splitting a text into sentences and and assigning a sentiment value to each one:
-* Values 0 or 1 => `negative` sentiment.
-* Value 2 => `neutral` sentiment.
-* Values 3 or 4 => `positive` sentiment.
-
-Given this, if a tweet contains multiple sentences, we pick the most frequently assigned sentiment.
-
-## Kafka topic
-Tweets are produced to a Kafka topic using Avro serialization.
-
-A local Kafka instance with schema registry is available (see [docker-compose.yml](docker-compose.yml)).
+The app:
+- Retrieves recent tweets from the [Twitter API](https://developer.x.com/en/docs/x-api) about a specified topic.
+- Processes them with an LLM to get the overall sentiment about said topic.
 
 ## Running instructions
-Check the [Makefile](Makefile) for how to compile, test and run the application.
 
-## CI/CD
-A Github Actions workflow for CI/CD is defined [here](.github/workflows) and can be seen [here](https://github.com/guidok91/twitter-api-demo/actions).
+### Generate a token for the Twitter API
+The token has to be be generated on the [Twitter Developer portal](https://docs.x.com/x-api/getting-started/getting-access).
+
+The app needs a Bearer Token to authenticate against the API. More info [here](https://docs.x.com/resources/fundamentals/authentication/oauth-2-0/application-only).
+
+### Install Ollama and download the required LLM
+First, install [Ollama](https://ollama.com/) in your machine and then run the following command to pull the LLM we will use for the app:
+```bash
+ollama pull mistral
+```
+
+Note: feel free to use other model of your choice.
+
+### Run the app
+Create the local env for the app:
+```bash
+make setup
+```
+
+Run the app, for example:
+```bash
+make run TOPIC="Donald Trump" TWITTER_API_TOKEN="<your-twitter-api-token>"
+```
