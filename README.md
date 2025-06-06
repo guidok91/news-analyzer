@@ -15,7 +15,7 @@ The app needs a Bearer Token to authenticate against the API. More info [here](h
 ### Install Ollama and download the required LLM
 First, install [Ollama](https://ollama.com/) in your machine and then run the following command to pull the LLM we will use for the app:
 ```bash
-ollama pull mistral
+ollama pull llama3.2
 ```
 
 Note: feel free to use other model of your choice.

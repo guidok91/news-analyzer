@@ -6,7 +6,7 @@ from typing import List
 
 
 TWEET_MAX_RESULTS = 50
-LLM = "mistral"
+LLM = "llama3.2"
 
 
 def get_tweets(topic: str, twitter_api_token: str) -> List[str]:
@@ -36,11 +36,11 @@ def get_tweets(topic: str, twitter_api_token: str) -> List[str]:
 def get_sentiment(topic: str, tweets: List[str]) -> str:
     logging.info(f"Analyzing sentiment of tweets with LLM {LLM}...")
     
-    tweet_text = "\n".join([f"- {tweet}" for tweet in tweets])
+    tweets_text = "\n".join([f"- {tweet}" for tweet in tweets])
     prompt = f"""
         Given the following list of recent tweets about the topic '{topic}',
-        summarize the general sentiment (positive, negative, or mixed) and briefly explain why:
-        {tweet_text}
+        summarize the general sentiment clearly (positive, negative, or mixed) and briefly explain why in one sentence:
+        {tweets_text}
     """
 
     response = ollama.chat(
