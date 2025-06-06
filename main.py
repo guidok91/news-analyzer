@@ -24,7 +24,7 @@ def get_tweets(topic: str, twitter_api_token: str) -> List[str]:
     )
 
     if response.status_code != 200:
-        raise Exception(f"Error fetching tweets: Error code: {response.status_code}. Error message: {response.text}")
+        raise requests.exceptions.HTTPError(f"Error fetching tweets: Error code: {response.status_code}. Error message: {response.text}")
 
     tweets = [tweet["text"] for tweet in response.json()["data"]]
 
