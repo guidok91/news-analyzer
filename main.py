@@ -14,10 +14,21 @@ def get_tweets(topic: str, twitter_api_token: str) -> List[str]:
     Returns:
         List[str]: A list of recent tweets about the topic.
     """
-    # Placeholder for actual Twitter API call
-    # This function should use the Twitter API to fetch tweets based on the topic
-    # and return a list of tweet texts.
-    return [f"Tweet about {topic} #1", f"Tweet about {topic} #2", f"Tweet about {topic} #3"]
+    response = requests.request(
+        method="GET",
+        url="https://api.twitter.com/2/tweets/search/recent",
+        headers={"Authorization": f"Bearer {twitter_api_token}"},
+        params={
+            "query": topic,
+            "max_results": 10,
+            "tweet.fields": "created_at,text,author_id",
+        }
+    )
+
+    if response.status_code != 200:
+        raise Exception(f"Error fetching tweets: Error code: {response.status_code}. Error message: {response.text}")
+
+    return [tweet["text"] for tweet in response.json()["data"]]
 
 
 if __name__ == "__main__":

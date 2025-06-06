@@ -11,4 +11,4 @@ setup: # Set up virtual env with the app and its dependencies.
 
 .PHONY: run
 run: # Run the app.
-	uv run main.py --topic $(TOPIC) --twitter-api-token $(TWITTER_API_TOKEN)
+	uv run main.py --topic "$(TOPIC)" --twitter-api-token $(TWITTER_API_TOKEN)
