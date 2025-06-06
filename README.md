@@ -1,4 +1,4 @@
-# Tweeter sentiment analysis
+# Twitter sentiment analysis
 Python app to analyse the overall sentiment about a specific topic in Twitter using LLMs.
 
 The app:
