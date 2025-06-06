@@ -1,0 +1,7 @@
+[project]
+name = "twitter-sentiment-analysis"
+version = "0.1.0"
+description = "Analyses tweets about a specified topic"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
