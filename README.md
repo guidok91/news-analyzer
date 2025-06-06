@@ -1,4 +1,4 @@
-# Tweet sentiment analysis
+# Tweeter sentiment analysis
 
 This is a Python app to analyse the overall sentiment about a specific topic in Twitter.
 
@@ -9,9 +9,9 @@ The app:
 ## Running instructions
 
 ### Generate a token for the Twitter API
-The app needs a Bearer Token to authenticate against the API ([OAuth 2.0 App-Only](https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only) auth).
+The token has to be be generated on the [Twitter Developer portal](https://docs.x.com/x-api/getting-started/getting-access).
 
-The token has to be be generated on the Twitter Developer portal. More info [here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api).
+The app needs a Bearer Token to authenticate against the API. More info [here](https://docs.x.com/resources/fundamentals/authentication/oauth-2-0/application-only).
 
 ### Run the app
 
