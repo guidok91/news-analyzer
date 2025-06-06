@@ -18,5 +18,5 @@ The app needs a Bearer Token to authenticate against the API. More info [here](h
 ```bash
 make setup
 
-make run TOPIC=<topic-to-analyse> TWITTER_API_TOKEN=<your-twitter-api-token>
+make run TOPIC="<topic-to-analyse>" TWITTER_API_TOKEN="<your-twitter-api-token>"
 ```

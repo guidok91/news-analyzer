@@ -3,6 +3,9 @@ import requests
 from typing import List
 
 
+TWEET_MAX_RESULTS = 50
+
+
 def get_tweets(topic: str, twitter_api_token: str) -> List[str]:
     """
     Fetches tweets related to a specific topic using the Twitter API.
@@ -20,7 +23,7 @@ def get_tweets(topic: str, twitter_api_token: str) -> List[str]:
         headers={"Authorization": f"Bearer {twitter_api_token}"},
         params={
             "query": topic,
-            "max_results": 10,
+            "max_results": TWEET_MAX_RESULTS,
             "tweet.fields": "created_at,text,author_id",
         }
     )
