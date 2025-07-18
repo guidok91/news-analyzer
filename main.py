@@ -9,7 +9,7 @@ def search_news(topic: str) -> list[dict[str, str]]:
     logging.info(f'Searching for news about topic: "{topic}"...')
 
     news_articles = DDGS().news(
-        query=f'"{topic}"',
+        query=f'{topic}',
         region="us-en",
         safesearch="off",
         timelimit="w",
@@ -30,16 +30,31 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
     logging.info(f'Summarizing news and analyzing overall sentiment of topic "{topic}" with LLM "{llm}"...')
 
     news_text = "\n".join(
-        f"Date: {a['date']} - Source: {a['source']} - Title: {a['title']} - Body: {a['body']}" for a in news_articles
+        (
+            f"Article #{i+1} of {len(news_articles)}\n"
+            f"- Date: {article['date']}\n"
+            f"- Source: {article['source']}\n"
+            f"- Title: {article['title']}\n"
+            f"- Body: {article['body']}"
+        )
+        for i, article in enumerate(news_articles)
     )
+
     prompt = (
         f"""
-        Given the following list of recent news articles about the topic "{topic}", 
-        summarize the most relevant points and determine the overall sentiment analysis (positive, negative, neutral) 
-        briefly explaining your reasoning, all in maximum 100 words:
+        You are an expert news analyst.
+
+        Based on the following news articles related to "{topic}", do the following:
+
+        1. Summarize the key points and developments in no more than 100 words in total.
+        2. Identify the overall sentiment (positive, negative, or neutral).
+        3. Briefly justify your sentiment assessment (1 or 2 sentences).
+
+        Articles:
         {news_text}
         """
     )
+    logging.debug(f"Prompt for LLM:\n{prompt}")
 
     response = ollama.chat(
         model=llm,
