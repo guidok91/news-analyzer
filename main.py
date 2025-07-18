@@ -13,7 +13,7 @@ def search_news(topic: str) -> list[dict[str, str]]:
     )
 
     sources = list(set([result["source"] for result in news_articles]))
-    logging.info(f"Found {len(news_articles)} articles from the following sources: {', '.join(sources)}")
+    logging.info(f"Found {len(news_articles)} articles from the following sources:\n" + "\n".join([f"- {s}" for s in sources]))
 
     return news_articles
 
@@ -39,8 +39,19 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
     return response["message"]["content"]
 
 
+def config_logging() -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+    logging.getLogger().handlers[0].addFilter(
+        lambda record: record.name == "root" or record.levelno >= logging.WARNING
+    )
+
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    config_logging()
 
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--topic", type=str, required=True)
@@ -51,4 +62,4 @@ if __name__ == "__main__":
 
     news_analysis = analyze_news(args.topic, news_articles, args.llm)
 
-    logging.info(f'News summary and sentiment analysis for topic "{args.topic}":\n{news_analysis}')
+    logging.info(f'\n{"="*80}\nNews summary and sentiment analysis for topic "{args.topic}":\n{news_analysis}\n{"="*80}\n')
