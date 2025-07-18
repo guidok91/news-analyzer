@@ -1,66 +1,76 @@
 import argparse
 import logging
+
 import ollama
-import requests
-from typing import List
+from ddgs import DDGS
 
 
-TWEET_MAX_RESULTS = 50
-LLM = "llama3.2"
+def search_news(topic: str) -> list[dict[str, str]]:
+    logging.info(f'Searching for news about topic: "{topic}"...')
 
-
-def get_tweets(topic: str, twitter_api_token: str) -> List[str]:
-    logging.info(f"Fetching tweets about topic: {topic}...")
-
-    response = requests.request(
-        method="GET",
-        url="https://api.twitter.com/2/tweets/search/recent",
-        headers={"Authorization": f"Bearer {twitter_api_token}"},
-        params={
-            "query": topic,
-            "max_results": TWEET_MAX_RESULTS,
-            "tweet.fields": "created_at,text,author_id",
-        }
+    news_articles = DDGS().news(
+        query=topic,
+        region="us-en",
+        safesearch="off",
+        timelimit="w",
+        max_results=30,
+        page=1,
+        backend="duckduckgo_news",
     )
 
-    if response.status_code != 200:
-        raise requests.exceptions.HTTPError(f"Error fetching tweets: Error code: {response.status_code}. Error message: {response.text}")
+    sources = set(result["source"] for result in news_articles)
+    logging.info(
+        f"Found {len(news_articles)} articles from the following sources:\n" + "\n".join(f"- {s}" for s in sources)
+    )
 
-    tweets = [tweet["text"] for tweet in response.json()["data"]]
-
-    logging.info(f"Retrieved {len(tweets)} tweets about {topic}")
-
-    return tweets
+    return news_articles
 
 
-def get_sentiment(topic: str, tweets: List[str]) -> str:
-    logging.info(f"Analyzing sentiment of tweets with LLM {LLM}...")
-    
-    tweets_text = "\n".join([f"- {tweet}" for tweet in tweets])
-    prompt = f"""
-        Given the following list of recent tweets about the topic '{topic}',
-        summarize the general sentiment clearly (positive, negative, or mixed) and briefly explain why in one sentence:
-        {tweets_text}
-    """
+def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> str:
+    logging.info(f'Summarizing news and analyzing overall sentiment of topic "{topic}" with LLM "{llm}"...')
+
+    news_text = "\n".join(
+        f"Date: {a['date']} - Source: {a['source']} - Title: {a['title']} - Body: {a['body']}" for a in news_articles
+    )
+    prompt = (
+        f"""
+        Given the following list of recent news articles about the topic "{topic}", 
+        summarize the most relevant points and determine the overall sentiment analysis (positive, negative, neutral) 
+        briefly explaining your reasoning, all in maximum 100 words:
+        {news_text}
+        """
+    )
 
     response = ollama.chat(
-        model=LLM,
+        model=llm,
         messages=[{"role": "user", "content": prompt}],
     )
-    
+
     return response["message"]["content"]
 
 
+def config_logging() -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    logging.getLogger().handlers[0].addFilter(
+        lambda record: record.name == "root" or record.levelno >= logging.WARNING
+    )
+
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    config_logging()
 
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--topic", type=str, required=True)
-    parser.add_argument("--twitter-api-token", type=str, required=True)
+    parser.add_argument("--llm", type=str, required=True)
     args = parser.parse_args()
 
-    tweets = get_tweets(args.topic, args.twitter_api_token)
+    news_articles = search_news(args.topic)
+    news_analysis = analyze_news(args.topic, news_articles, args.llm)
 
-    sentiment = get_sentiment(args.topic, tweets)
-
-    logging.info(f"Sentiment analysis result for topic {args.topic}:\n{sentiment}")
+    logging.info(
+        f'\n{"="*80}\nNews summary and sentiment analysis for topic "{args.topic}":\n{news_analysis}\n{"="*80}\n'
+    )
