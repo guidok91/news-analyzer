@@ -34,7 +34,7 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
     )
     prompt = (
         f"""
-        Given the following list of recent news articles about the topic "{topic}",
+        Given the following list of recent news articles about the topic "{topic}", 
         summarize the most relevant points and determine the overall sentiment analysis (positive, negative, neutral) 
         briefly explaining your reasoning, all in maximum 100 words:
         {news_text}
