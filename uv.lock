@@ -56,16 +56,16 @@ wheels = [
 
 [[package]]
 name = "ddgs"
-version = "9.3.0"
+version = "9.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "lxml" },
     { name = "primp" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/52/6c/cd742af6ed593e8cbf2f3da45ee2ff7655d7a2fb0894ff310ba4badb3555/ddgs-9.3.0.tar.gz", hash = "sha256:6dc73fecd2b519b09e4ff6dfd8e427bf15fe0bb74c5ab96eee562112d9824642", size = 28850, upload-time = "2025-07-18T08:28:59.185Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c9/4b/f607af852264adec9b1df27deea2d63584f4902b2102562575123a17b950/ddgs-9.3.1.tar.gz", hash = "sha256:5ce50ff00579439812ca1983dba4600a878143409ed9ffd8cd097adb0a31777c", size = 28401, upload-time = "2025-07-18T09:40:00.451Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d8/ec/837d48705269ce3f463f3cc05d59a1577a689786dc848b7920faaa1337c8/ddgs-9.3.0-py3-none-any.whl", hash = "sha256:c3adbfe3426ba062c3910c2222923c8888a0587b2a9d7de4aa8c9606cbcc79a3", size = 33436, upload-time = "2025-07-18T08:28:58.134Z" },
+    { url = "https://files.pythonhosted.org/packages/80/a2/9e875e1851eb8c37960f4be1c9a4e669c08c184b1ae4fb63d97fc8a2a549/ddgs-9.3.1-py3-none-any.whl", hash = "sha256:4ea4e23a44c0b9e37743d5fdb9dcda208dd0debb2e4d096bb9f6a7acbfefc511", size = 33248, upload-time = "2025-07-18T09:39:59.484Z" },
 ]
 
 [[package]]
@@ -230,7 +230,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "ddgs", specifier = "~=9.3.0" },
+    { name = "ddgs", specifier = "~=9.3.1" },
     { name = "ollama", specifier = "~=0.5.1" },
 ]
 
