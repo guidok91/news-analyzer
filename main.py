@@ -1,21 +1,15 @@
 import argparse
-from ddgs import DDGS
 import logging
+
 import ollama
-from typing import Dict, List
+from ddgs import DDGS
 
 
-def search_news(topic: str) -> List[Dict[str, str]]:
+def search_news(topic: str) -> list[dict[str, str]]:
     logging.info(f'Searching for news about topic: "{topic}"...')
 
     news_articles = DDGS().news(
-        query=topic,
-        region="us-en",
-        safesearch="off",
-        timelimit="w",
-        num_results=30,
-        page=1,
-        backend="duckduckgo"
+        query=topic, region="us-en", safesearch="off", timelimit="w", num_results=30, page=1, backend="duckduckgo"
     )
 
     sources = list(set([result["source"] for result in news_articles]))
@@ -24,9 +18,9 @@ def search_news(topic: str) -> List[Dict[str, str]]:
     return news_articles
 
 
-def analyze_news(topic: str, news_articles: List[Dict[str, str]], llm: str) -> str:
+def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> str:
     logging.info(f'Summarizing news and analyzing overall sentiment of topic "{topic}" with LLM "{llm}"...')
-    
+
     news_text = "\n".join(
         [f"Date: {a['date']} - Source: {a['source']} - Title: {a['title']} - Body: {a['body']}" for a in news_articles]
     )
@@ -41,7 +35,7 @@ def analyze_news(topic: str, news_articles: List[Dict[str, str]], llm: str) -> s
         model=llm,
         messages=[{"role": "user", "content": prompt}],
     )
-    
+
     return response["message"]["content"]
 
 
