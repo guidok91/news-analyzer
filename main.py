@@ -13,9 +13,9 @@ def search_news(topic: str) -> list[dict[str, str]]:
         region="us-en",
         safesearch="off",
         timelimit="w",
-        num_results=30,
+        max_results=30,
         page=1,
-        backend="duckduckgo",
+        backend="duckduckgo_news",
     )
 
     sources = set(result["source"] for result in news_articles)

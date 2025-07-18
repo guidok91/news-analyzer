@@ -1,8 +1,8 @@
 # News analyzer
-Python app to analyse the recent news about a given topic using LLMs.
+Python app that analyzes recent news about a given topic using LLMs.
 
 The app:
-- Performs a web search for recent news of a given topic using [D.D.G.S.](https://github.com/deedy5/ddgs) library. 
+- Performs a web search for recent news about a given topic using [D.D.G.S.](https://github.com/deedy5/ddgs) library.
 - Summarizes it and provides the overall sentiment using an LLM.
 
 ## Running instructions
