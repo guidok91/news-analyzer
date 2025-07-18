@@ -9,7 +9,7 @@ def search_news(topic: str) -> list[dict[str, str]]:
     logging.info(f'Searching for news about topic: "{topic}"...')
 
     news_articles = DDGS().news(
-        query=topic,
+        query=f'"{topic}"',
         region="us-en",
         safesearch="off",
         timelimit="w",
