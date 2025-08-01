@@ -59,7 +59,7 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
         <justification>
 
         If the articles are not in English, translate them to English first.
-        Give you response in English.
+        Give your response in English.
 
         Articles:
         {news_text}
