@@ -13,9 +13,9 @@ def search_news(topic: str) -> list[dict[str, str]]:
         region="us-en",
         safesearch="off",
         timelimit="w",
-        max_results=30,
+        max_results=100,
         page=1,
-        backend="duckduckgo_news",
+        backend="auto",
     )
 
     sources = set(result["source"] for result in news_articles)
@@ -49,6 +49,17 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
         1. Summarize the key points and developments in no more than 100 words in total.
         2. Identify the overall sentiment (positive, negative, or neutral).
         3. Briefly justify your sentiment assessment (1 or 2 sentences).
+
+        Provide your response in the following format:
+        ******************** Summary ********************
+        <summary>
+        ******************** Sentiment ********************
+        <sentiment>
+        ******************** Justification ********************
+        <justification>
+
+        If the articles are not in English, translate them to English first.
+        Give you response in English.
 
         Articles:
         {news_text}
@@ -87,5 +98,5 @@ if __name__ == "__main__":
     news_analysis = analyze_news(args.topic, news_articles, args.llm)
 
     logging.info(
-        f'\n{"="*80}\nNews summary and sentiment analysis for topic "{args.topic}":\n{news_analysis}\n{"="*80}\n'
+        f'\n{"="*150}\n{news_analysis}\n{"="*150}\n'
     )

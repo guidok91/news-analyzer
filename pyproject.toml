@@ -5,6 +5,6 @@ description = "Analyses tweets about a specified topic"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "ddgs~=9.3.1",
+    "ddgs~=9.5.0",
     "ollama~=0.5.1",
 ]
