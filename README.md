@@ -2,8 +2,8 @@
 Python app that analyzes recent news about a given topic using LLMs.
 
 The app:
-- Performs a web search for recent news about a given topic using [D.D.G.S.](https://github.com/deedy5/ddgs) library.
-- Summarizes it and provides the overall sentiment using an LLM.
+- Performs a web search for recent news articles of a given topic using [D.D.G.S.](https://github.com/deedy5/ddgs) library.
+- Summarizes them and provides the overall sentiment using an LLM.
 
 ## Running instructions
 
@@ -13,7 +13,6 @@ First, install and run [Ollama](https://ollama.com/) in your machine and then ex
 ollama pull llama3.2
 ```
 
-Note: you might need to set `Context length` to higher values (e.g. 8k, 16k) if you want to analyse larger amounts of news articles.  
 Note: feel free to use other model of your choice.
 
 ### Run the app
