@@ -59,7 +59,7 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
 
         1. Summarize the key points and developments in no more than 100 words in total.
         2. Identify the overall sentiment (positive, negative, or neutral). One word only.
-        3. Briefly justify your sentiment assessment in no more than 100 words in total.
+        3. Briefly justify your sentiment assessmentin 1 or 2 sentences and no more than 100 words in total.
 
         Provide your response in the following format:
         ******************** Summary ********************
