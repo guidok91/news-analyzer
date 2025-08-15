@@ -2,6 +2,7 @@ import argparse
 import logging
 
 import ollama
+import tiktoken
 from ddgs import DDGS
 
 
@@ -37,6 +38,8 @@ def search_news(topic: str, max_articles: int) -> list[dict[str, str]]:
 
 
 def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> str:
+    MAX_TOKEN_LENGTH = 16384
+
     logging.info(f'Summarizing news and analyzing overall sentiment of topic "{topic}" with LLM "{llm}"...')
 
     news_text = "\n".join(
@@ -77,9 +80,18 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
     )
     logging.debug(f"Prompt for LLM:\n{prompt}")
 
+    prompt_token_length = len(tiktoken.get_encoding("cl100k_base").encode(prompt))
+    if prompt_token_length > MAX_TOKEN_LENGTH:
+        raise ValueError(
+            f"Prompt exceeds maximum token length of {MAX_TOKEN_LENGTH} tokens. "
+            f"Current length: {prompt_token_length} tokens. "
+            "Consider reducing the maximum number of articles to retrieve or setting a higher MAX_TOKEN_LENGTH."
+        )
+
     response = ollama.chat(
         model=llm,
         messages=[{"role": "user", "content": prompt}],
+        options={"num_ctx": MAX_TOKEN_LENGTH},
     )
 
     return response["message"]["content"]

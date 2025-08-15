@@ -13,7 +13,6 @@ First, install and run [Ollama](https://ollama.com/) in your machine and then ex
 ollama pull llama3.2
 ```
 
-Note: you might need to set `Context length` to higher values (e.g. 8k, 16k) if you want to analyse larger amounts of news articles.  
 Note: feel free to use other model of your choice.
 
 ### Run the app
