@@ -6,21 +6,32 @@ from ddgs import DDGS
 
 
 def search_news(topic: str) -> list[dict[str, str]]:
-    logging.info(f'Searching for news about topic: "{topic}"...')
+    MAX_ARTICLES = 50
+    MAX_PAGES = 10
 
-    news_articles = DDGS().news(
-        query=f'{topic}',
-        region="us-en",
-        safesearch="off",
-        timelimit="w",
-        max_results=100,
-        page=1,
-        backend="auto",
-    )
+    logging.info(f'Searching for news about topic: "{topic}" (limiting to max {MAX_ARTICLES} articles)...')
+    news_articles = []
+    for page in range(1, MAX_PAGES + 1):
+        news_articles_page_n = DDGS().news(
+            query=f'{topic}',
+            region="us-en",
+            safesearch="off",
+            timelimit="w",
+            max_results=None,
+            page=page,
+            backend="auto",
+        )
+        news_articles = news_articles + news_articles_page_n
+    logging.info(f"Found {len(news_articles)} articles in total.")
 
+    logging.info("Deduplicating articles based on URL...")
+    news_articles = list({article["url"]: article for article in news_articles}.values())
+    logging.info(f"Kept {len(news_articles)} articles.")
+
+    news_articles = news_articles[:MAX_ARTICLES] if len(news_articles) > MAX_ARTICLES else news_articles
     sources = set(result["source"] for result in news_articles)
     logging.info(
-        f"Found {len(news_articles)} articles from the following sources:\n" + "\n".join(f"- {s}" for s in sources)
+        f"Keeping the first {len(news_articles)} articles, from the following sources:\n" + "\n".join(f"- {s}" for s in sources)
     )
 
     return news_articles
