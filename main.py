@@ -6,17 +6,24 @@ import tiktoken
 from ddgs import DDGS
 
 
-def search_news(topic: str, max_articles: int) -> list[dict[str, str]]:
+TIME_PERIOD_MAP = {
+    "day": "d",
+    "week": "w",
+    "month": "m"
+}
+
+
+def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[str, str]]:
     MAX_PAGES = 10
 
-    logging.info(f'Searching for news about topic: "{topic}" (limiting to max {max_articles} articles)...')
+    logging.info(f'Searching for news about topic: "{topic}" (limiting to max {max_articles} articles of the last {time_period})...')
     news_articles = []
     for page in range(1, MAX_PAGES + 1):
         news_articles_page_n = DDGS().news(
             query=f'{topic}',
             region="us-en",
             safesearch="off",
-            timelimit="w",
+            timelimit=TIME_PERIOD_MAP[time_period],
             max_results=None,
             page=page,
             backend="auto",
@@ -113,9 +120,10 @@ if __name__ == "__main__":
     parser.add_argument("--topic", type=str, required=True)
     parser.add_argument("--llm", type=str, required=True)
     parser.add_argument("--max-articles", type=int, required=True)
+    parser.add_argument("--time-period", type=str, choices=TIME_PERIOD_MAP.keys(), required=True)
     args = parser.parse_args()
 
-    news_articles = search_news(args.topic, args.max_articles)
+    news_articles = search_news(args.topic, args.max_articles, args.time_period)
     news_analysis = analyze_news(args.topic, news_articles, args.llm)
 
     logging.info(

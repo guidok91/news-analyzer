@@ -23,7 +23,7 @@ make setup
 
 Run the app, for example:
 ```bash
-make run TOPIC="Donald Trump" LLM="llama3.2" MAX_ARTICLES=50
+make run TOPIC="Donald Trump" LLM="llama3.2" MAX_ARTICLES=50 TIME_PERIOD="week"
 ```
 
 Please provide the topic in English language.
