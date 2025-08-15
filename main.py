@@ -30,9 +30,7 @@ def search_news(topic: str, max_articles: int) -> list[dict[str, str]]:
 
     news_articles = news_articles[:max_articles] if len(news_articles) > max_articles else news_articles
     sources = set(result["source"] for result in news_articles)
-    logging.info(
-        f"Keeping the first {len(news_articles)} articles, from the following sources:\n" + "\n".join(f"- {s}" for s in sources)
-    )
+    logging.info(f"Keeping the first {len(news_articles)} articles, from the following sources: {', '.join(sources)}.")
 
     return news_articles
 
@@ -60,8 +58,8 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
         Based on the following news articles related to "{topic}", do the following:
 
         1. Summarize the key points and developments in no more than 100 words in total.
-        2. Identify the overall sentiment (positive, negative, or neutral).
-        3. Briefly justify your sentiment assessment (1 or 2 sentences).
+        2. Identify the overall sentiment (positive, negative, or neutral). One word only.
+        3. Briefly justify your sentiment assessment in no more than 100 words in total.
 
         Provide your response in the following format:
         ******************** Summary ********************
