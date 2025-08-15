@@ -5,11 +5,10 @@ import ollama
 from ddgs import DDGS
 
 
-def search_news(topic: str) -> list[dict[str, str]]:
-    MAX_ARTICLES = 50
+def search_news(topic: str, max_articles: int) -> list[dict[str, str]]:
     MAX_PAGES = 10
 
-    logging.info(f'Searching for news about topic: "{topic}" (limiting to max {MAX_ARTICLES} articles)...')
+    logging.info(f'Searching for news about topic: "{topic}" (limiting to max {max_articles} articles)...')
     news_articles = []
     for page in range(1, MAX_PAGES + 1):
         news_articles_page_n = DDGS().news(
@@ -28,7 +27,7 @@ def search_news(topic: str) -> list[dict[str, str]]:
     news_articles = list({article["url"]: article for article in news_articles}.values())
     logging.info(f"Kept {len(news_articles)} articles.")
 
-    news_articles = news_articles[:MAX_ARTICLES] if len(news_articles) > MAX_ARTICLES else news_articles
+    news_articles = news_articles[:max_articles] if len(news_articles) > max_articles else news_articles
     sources = set(result["source"] for result in news_articles)
     logging.info(
         f"Keeping the first {len(news_articles)} articles, from the following sources:\n" + "\n".join(f"- {s}" for s in sources)
@@ -103,9 +102,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--topic", type=str, required=True)
     parser.add_argument("--llm", type=str, required=True)
+    parser.add_argument("--max-articles", type=int, required=True)
     args = parser.parse_args()
 
-    news_articles = search_news(args.topic)
+    news_articles = search_news(args.topic, args.max_articles)
     news_analysis = analyze_news(args.topic, news_articles, args.llm)
 
     logging.info(

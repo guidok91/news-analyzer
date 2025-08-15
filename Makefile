@@ -11,4 +11,4 @@ setup: # Set up virtual env with the app and its dependencies.
 
 .PHONY: run
 run: # Run the app.
-	uv run main.py --topic "$(TOPIC)" --llm "$(LLM)"
+	uv run main.py --topic "$(TOPIC)" --llm "$(LLM)" --max-articles $(MAX_ARTICLES)
