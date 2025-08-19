@@ -1,5 +1,5 @@
 # News analyzer
-Python app that analyzes recent news about a given topic using LLMs.
+Python [Streamlit](https://streamlit.io/) app to analyze news about a given topic using LLMs.
 
 The app:
 - Performs a web search for recent news articles of a given topic using [D.D.G.S.](https://github.com/deedy5/ddgs) library.
@@ -21,9 +21,7 @@ Create the local env for the app:
 make setup
 ```
 
-Run the app, for example:
+Run the app:
 ```bash
-make run TOPIC="Donald Trump" LLM="llama3.2" MAX_ARTICLES=50 TIME_PERIOD="week"
+make run
 ```
-
-Please provide the topic in English language.
