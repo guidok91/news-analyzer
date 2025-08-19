@@ -1,24 +1,22 @@
 import ollama
-import streamlit as st
 import tiktoken
 from ddgs import DDGS
+import streamlit as st
 
 
-TIME_PERIOD_MAP = {
-    "Day": "d",
-    "Week": "w",
-    "Month": "m"
-}
+TIME_PERIOD_MAP = {"Day": "d", "Week": "w", "Month": "m"}
 
 
 def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[str, str]]:
     MAX_PAGES = 10
 
-    with st.spinner(f'Searching for news about topic: "{topic}" (limiting to max {max_articles} articles of the last {time_period.lower()})...'):
+    with st.spinner(
+        f'Searching for news about topic: "{topic}" (limiting to max {max_articles} articles of the last {time_period.lower()})...'
+    ):
         news_articles = []
         for page in range(1, MAX_PAGES + 1):
             news_articles_page_n = DDGS().news(
-                query=f'{topic}',
+                query=topic,
                 region="us-en",
                 safesearch="off",
                 timelimit=TIME_PERIOD_MAP[time_period],
@@ -35,7 +33,10 @@ def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[st
 
     news_articles = news_articles[:max_articles] if len(news_articles) > max_articles else news_articles
     sources = set(result["source"] for result in news_articles)
-    st.write(f"Keeping the first {len(news_articles)} articles, from the following sources:\n{"\n".join([f"- {s}" for s in sources])}.")
+    st.write(
+        f"Keeping the first {len(news_articles)} articles, from the following sources:\n"
+        f"{'\n'.join([f'- {s}' for s in sources])}"
+    )
 
     return news_articles
 
@@ -104,13 +105,7 @@ if __name__ == "__main__":
 
     topic = st.sidebar.text_input("Topic", value="Artificial Intelligence")
     llm = st.sidebar.text_input("LLM Model", value="llama3.2")
-    max_articles = st.sidebar.slider(
-        "Max Articles to Include",
-        min_value=10,
-        max_value=100,
-        value=20,
-        step=10
-    )
+    max_articles = st.sidebar.slider("Max Articles to Include", min_value=10, max_value=100, value=20, step=10)
     time_period = st.sidebar.selectbox(
         "Time Period",
         options=list(TIME_PERIOD_MAP.keys()),
