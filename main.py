@@ -16,7 +16,7 @@ def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[st
         news_articles = []
         for page in range(1, MAX_PAGES + 1):
             news_articles_page_n = DDGS().news(
-                query=topic,
+                query=f'"{topic}"',
                 region="us-en",
                 safesearch="off",
                 timelimit=TIME_PERIOD_MAP[time_period],
