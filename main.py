@@ -71,7 +71,7 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
             <summary>
             ## Sentiment\n
             <sentiment>
-            ### Justification\n
+            ## Justification\n
             <justification>
 
             If the articles are not in English, translate them to English first.
