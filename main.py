@@ -6,20 +6,21 @@ import tiktoken
 from ddgs import DDGS
 
 TIME_PERIOD_MAP = {"Day": "d", "Week": "w", "Month": "m"}
+REGIONS_LANGUAGES = ["us-en", "ar-es", "es-es", "de-de"]
 
 
-def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[str, str]]:
+def search_news(topic: str, max_articles: int, time_period: str, region_language: str) -> list[dict[str, str]]:
     MAX_PAGES = 10
 
     with st.spinner(
-        f'Searching for news about topic: "{topic}" '
+        f'Searching for news about topic: "{topic}" in region/language: "{region_language}" '
         f"(limiting to max {max_articles} articles of the last {time_period.lower()})..."
     ):
         news_articles = []
         for page in range(1, MAX_PAGES + 1):
             news_articles_page_n = DDGS().news(
                 query=f'"{topic}"',
-                region="us-en",
+                region=region_language,
                 safesearch="off",
                 timelimit=TIME_PERIOD_MAP[time_period],
                 max_results=None,
@@ -44,13 +45,13 @@ def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[st
     }
     st.write(
         f"Keeping the first {len(news_articles)} articles, from the following sources:\n"
-        f"{'\n'.join([f'- {source}: {count} article(s)' for source, count in sources.items()])}"
+        f"{'\n'.join([f'- {source}: {count} article(s).' for source, count in sources.items()])}"
     )
 
     return news_articles
 
 
-def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> str:
+def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str, region_language: str) -> str:
     MAX_TOKEN_LENGTH = 16384
 
     with st.spinner(f'Summarizing news and analyzing overall sentiment of topic "{topic}" with LLM "{llm}"...'):
@@ -66,9 +67,9 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
         )
 
         prompt = f"""
-            You are an expert news analyst.
+            You are an expert news analyst that speaks multiple languages.
 
-            Based on the following news articles related to "{topic}", do the following:
+            Based on the following news articles related to "{topic}", of the region/language {region_language}, do the following:
 
             1. Summarize the key points and developments in no more than 100 words in total.
             2. Identify the overall sentiment (positive, negative, or neutral). One word only.
@@ -82,7 +83,7 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
             ## Justification\n
             <justification>
 
-            If the articles are not in English, translate them to English first.
+            Take into account that the articles can be in different languages, and you should be able to understand them all.
             Give your response in English.
 
             Articles:
@@ -118,7 +119,12 @@ if __name__ == "__main__":
         options=list(TIME_PERIOD_MAP.keys()),
         index=list(TIME_PERIOD_MAP.keys()).index("Week"),
     )
+    region_language = st.sidebar.selectbox(
+        "Region/Language",
+        options=REGIONS_LANGUAGES,
+        index=REGIONS_LANGUAGES.index("us-en"),
+    )
 
     if st.sidebar.button("Run Search"):
-        news_articles = search_news(topic, max_articles, time_period)
-        analyze_news(topic, news_articles, llm)
+        news_articles = search_news(topic, max_articles, time_period, region_language)
+        analyze_news(topic, news_articles, llm, region_language)
