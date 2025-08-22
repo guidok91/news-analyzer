@@ -10,7 +10,7 @@ The app:
 ### Setup Ollama locally
 First, install and run [Ollama](https://ollama.com/) in your machine and then execute the following command to pull the LLM we will use for the app:
 ```bash
-ollama pull llama3.2
+ollama pull llama3.1:8b
 ```
 
 Note: feel free to use other model of your choice.

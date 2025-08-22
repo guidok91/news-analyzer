@@ -104,7 +104,7 @@ if __name__ == "__main__":
     st.sidebar.header("Articles Search Settings")
 
     topic = st.sidebar.text_input("Topic", value="Artificial Intelligence")
-    llm = st.sidebar.text_input("LLM Model", value="llama3.2")
+    llm = st.sidebar.text_input("LLM Model", value="llama3.1:8b")
     max_articles = st.sidebar.slider("Max Articles to Include", min_value=10, max_value=100, value=20, step=10)
     time_period = st.sidebar.selectbox(
         "Time Period",
