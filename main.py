@@ -1,8 +1,9 @@
+from collections import Counter
+
 import ollama
+import streamlit as st
 import tiktoken
 from ddgs import DDGS
-import streamlit as st
-
 
 TIME_PERIOD_MAP = {"Day": "d", "Week": "w", "Month": "m"}
 
@@ -11,7 +12,8 @@ def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[st
     MAX_PAGES = 10
 
     with st.spinner(
-        f'Searching for news about topic: "{topic}" (limiting to max {max_articles} articles of the last {time_period.lower()})...'
+        f'Searching for news about topic: "{topic}" '
+        f"(limiting to max {max_articles} articles of the last {time_period.lower()})..."
     ):
         news_articles = []
         for page in range(1, MAX_PAGES + 1):
@@ -32,10 +34,17 @@ def search_news(topic: str, max_articles: int, time_period: str) -> list[dict[st
     st.write(f"Kept {len(news_articles)} articles (after deduplicating by URL).")
 
     news_articles = news_articles[:max_articles] if len(news_articles) > max_articles else news_articles
-    sources = set(result["source"] for result in news_articles)
+    sources = {
+        k: v
+        for k, v in sorted(
+            Counter(n["source"] for n in news_articles).items(),
+            key=lambda item: item[1],
+            reverse=True,
+        )
+    }
     st.write(
         f"Keeping the first {len(news_articles)} articles, from the following sources:\n"
-        f"{'\n'.join([f'- {s}' for s in sources])}"
+        f"{'\n'.join([f'- {source}: {count} article(s)' for source, count in sources.items()])}"
     )
 
     return news_articles
@@ -56,8 +65,7 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
             for i, article in enumerate(news_articles)
         )
 
-        prompt = (
-            f"""
+        prompt = f"""
             You are an expert news analyst.
 
             Based on the following news articles related to "{topic}", do the following:
@@ -80,7 +88,6 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str) -> s
             Articles:
             {news_text}
             """
-        )
 
         prompt_token_length = len(tiktoken.get_encoding("cl100k_base").encode(prompt))
         if prompt_token_length > MAX_TOKEN_LENGTH:
