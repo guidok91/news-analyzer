@@ -75,7 +75,7 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str, regi
             2. Identify the overall sentiment (positive, negative, or neutral). One word only.
             3. Briefly justify your sentiment assessmentin 1 or 2 sentences and no more than 100 words in total.
 
-            Provide your response in the following format:
+            Provide your response in the following format, respecting the instructions above for each section:
             ## Summary\n
             <summary>
             ## Sentiment\n
@@ -85,6 +85,8 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str, regi
 
             Take into account that the articles can be in different languages, and you should be able to understand them all.
             Give your response in English.
+
+            Do exactly as instructed and do not ask any follow up questions or add any further information.
 
             Articles:
             {news_text}
