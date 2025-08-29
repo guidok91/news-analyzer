@@ -11,4 +11,4 @@ setup: # Set up virtual env with the app and its dependencies.
 
 .PHONY: run
 run: # Run the app.
-	uv run streamlit run main.py
+	uv run streamlit run src/main.py
