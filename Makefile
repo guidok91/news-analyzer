@@ -1,4 +1,4 @@
-UV_VERSION=0.7.11
+UV_VERSION=0.8.14
 
 .PHONY: help
 help:
