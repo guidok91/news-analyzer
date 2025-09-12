@@ -1,4 +1,4 @@
-from config import REGIONS_LANGUAGES, TIME_PERIOD_MAP
+from config import REGIONS_LANGUAGES, TIME_PERIOD_MAP, AVAILABLE_MODELS
 from news_analyzer import analyze_news
 from news_searcher import search_news
 import streamlit as st
@@ -9,7 +9,7 @@ if __name__ == "__main__":
     st.sidebar.header("Articles Search Settings")
 
     topic = st.sidebar.text_input("Topic", value="Artificial Intelligence")
-    llm = st.sidebar.text_input("LLM Model", value="llama3.1:8b")
+    llm = st.sidebar.selectbox("LLM Model", options=AVAILABLE_MODELS)
     max_articles = st.sidebar.slider("Max Articles to Include", min_value=10, max_value=100, value=20, step=10)
     time_period = st.sidebar.selectbox(
         "Time Period",
