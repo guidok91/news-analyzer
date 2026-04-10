@@ -1,11 +1,8 @@
 import ollama
 import streamlit as st
-import tiktoken
 
 
 def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str, region_language: str) -> str:
-    MAX_TOKEN_LENGTH = 16384
-
     with st.spinner(f'Summarizing news and analyzing overall sentiment of topic "{topic}" with LLM "{llm}"...'):
         news_text = "\n".join(
             (
@@ -44,18 +41,9 @@ def analyze_news(topic: str, news_articles: list[dict[str, str]], llm: str, regi
             {news_text}
             """
 
-        prompt_token_length = len(tiktoken.get_encoding("cl100k_base").encode(prompt))
-        if prompt_token_length > MAX_TOKEN_LENGTH:
-            raise ValueError(
-                f"Prompt exceeds maximum token length of {MAX_TOKEN_LENGTH} tokens. "
-                f"Current length: {prompt_token_length} tokens. "
-                "Consider reducing the maximum number of articles to retrieve or setting a higher MAX_TOKEN_LENGTH."
-            )
-
         response = ollama.chat(
             model=llm,
             messages=[{"role": "user", "content": prompt}],
-            options={"num_ctx": MAX_TOKEN_LENGTH},
         )
 
     st.write(response["message"]["content"])
