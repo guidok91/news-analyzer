@@ -1,0 +1,8 @@
+brew install cloudflared
+
+make run
+
+In a separate terminal:
+cloudflared tunnel --url localhost:8501
+
+Check terminal for the url (https://random-words-123.trycloudflare.com)
