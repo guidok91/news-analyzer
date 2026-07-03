@@ -1,5 +1,5 @@
 export TZ=UTC
-export UV_VERSION=0.11.6
+export UV_VERSION=0.11.26
 
 .PHONY: help
 help:

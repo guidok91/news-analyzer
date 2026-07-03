@@ -25,3 +25,6 @@ Run the app:
 ```bash
 make run
 ```
+
+## Dependency management
+Dependabot is configured to periodically upgrade repo dependencies. See [dependabot.yml](.github/dependabot.yml).
